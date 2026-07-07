@@ -1,0 +1,6 @@
+[
+ {"doctype": "Workflow State", "name": "Open", "workflow_state_name": "Open", "style": "Warning", "icon": "small-circle"},
+ {"doctype": "Workflow State", "name": "Assigned", "workflow_state_name": "Assigned", "style": "Info", "icon": "small-circle"},
+ {"doctype": "Workflow State", "name": "In Progress", "workflow_state_name": "In Progress", "style": "Primary", "icon": "small-circle"},
+ {"doctype": "Workflow State", "name": "Completed", "workflow_state_name": "Completed", "style": "Success", "icon": "circle"}
+]

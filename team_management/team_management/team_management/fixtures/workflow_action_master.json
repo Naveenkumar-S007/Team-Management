@@ -1,0 +1,5 @@
+[
+ {"doctype": "Workflow Action Master", "name": "Assign", "workflow_action_name": "Assign"},
+ {"doctype": "Workflow Action Master", "name": "Start", "workflow_action_name": "Start"},
+ {"doctype": "Workflow Action Master", "name": "Complete", "workflow_action_name": "Complete"}
+]

@@ -1,0 +1,60 @@
+[
+ {
+  "doctype": "Notification",
+  "name": "Team Management - New Requirement Alert",
+  "subject": "New Requirement Raised: {{ doc.requirement_title }}",
+  "document_type": "Work Requirement",
+  "event": "New",
+  "channel": "Email",
+  "enabled": 1,
+  "send_system_notification": 1,
+  "attach_print": 0,
+  "condition": "",
+  "recipients": [
+   {
+    "receiver_by_document_field": "team_head",
+    "doctype": "Notification Recipient"
+   }
+  ],
+  "message": "<p>A new requirement <b>{{ doc.requirement_title }}</b> has been raised by {{ doc.requested_by }}.</p><p>Priority: {{ doc.priority }}<br>Due Date: {{ doc.due_date }}</p>"
+ },
+ {
+  "doctype": "Notification",
+  "name": "Team Management - New Assignment Alert",
+  "subject": "New Work Assigned: {{ doc.name }}",
+  "document_type": "Work Assignment",
+  "event": "New",
+  "channel": "Email",
+  "enabled": 1,
+  "send_system_notification": 1,
+  "attach_print": 0,
+  "condition": "",
+  "recipients": [
+   {
+    "receiver_by_document_field": "assigned_to",
+    "doctype": "Notification Recipient"
+   }
+  ],
+  "message": "<p>You have been assigned new work by {{ doc.assigned_by }}.</p><p>Priority: {{ doc.priority }}<br>Due Date: {{ doc.due_date }}</p><p>{{ doc.instructions }}</p>"
+ },
+ {
+  "doctype": "Notification",
+  "name": "Team Management - Task Completed Alert",
+  "subject": "Task Completed: {{ doc.name }}",
+  "document_type": "Work Assignment",
+  "event": "Value Change",
+  "value_changed": "status",
+  "channel": "Email",
+  "enabled": 1,
+  "send_system_notification": 1,
+  "attach_print": 0,
+  "condition": "doc.status == 'Completed'",
+  "recipients": [
+   {
+    "receiver_by_document_field": "assigned_by",
+    "doctype": "Notification Recipient"
+   }
+  ],
+  "message": "<p>{{ doc.assigned_to }} has marked assignment <b>{{ doc.name }}</b> as Completed.</p>"
+ }
+]

@@ -1,0 +1,2 @@
+include *.txt
+recursive-include team_management *.json *.py *.md *.txt *.html *.js *.css

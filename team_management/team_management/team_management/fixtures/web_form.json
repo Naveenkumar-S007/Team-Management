@@ -1,0 +1,26 @@
+[
+ {
+  "doctype": "Web Form",
+  "name": "raise-a-requirement",
+  "title": "Raise a Requirement",
+  "route": "raise-a-requirement",
+  "doc_type": "Work Requirement",
+  "module": "Team Management",
+  "published": 1,
+  "login_required": 1,
+  "allow_edit": 0,
+  "allow_multiple": 1,
+  "allow_print": 0,
+  "allow_delete": 0,
+  "show_list": 1,
+  "success_message": "Your requirement has been submitted. The Team Head will be notified by email.",
+  "web_form_fields": [
+   {"doctype": "Web Form Field", "fieldname": "requirement_title", "fieldtype": "Data", "label": "Requirement Title", "reqd": 1},
+   {"doctype": "Web Form Field", "fieldname": "team", "fieldtype": "Link", "label": "Target Team", "options": "Team", "reqd": 1},
+   {"doctype": "Web Form Field", "fieldname": "priority", "fieldtype": "Select", "label": "Priority", "options": "Low\nMedium\nHigh\nUrgent"},
+   {"doctype": "Web Form Field", "fieldname": "due_date", "fieldtype": "Date", "label": "Expected Due Date"},
+   {"doctype": "Web Form Field", "fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "reqd": 1},
+   {"doctype": "Web Form Field", "fieldname": "attachment", "fieldtype": "Attach", "label": "Reference Attachment"}
+  ]
+ }
+]

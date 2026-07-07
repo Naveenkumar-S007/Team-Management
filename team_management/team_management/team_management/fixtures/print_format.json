@@ -1,0 +1,12 @@
+[
+ {
+  "doctype": "Print Format",
+  "name": "Task Sheet",
+  "doc_type": "Work Assignment",
+  "print_format_type": "Jinja",
+  "standard": "No",
+  "disabled": 0,
+  "module": "Team Management",
+  "html": "<div style=\"font-family: Arial, sans-serif; padding: 20px;\">\n  <h2 style=\"border-bottom:2px solid #2E86DE; padding-bottom:8px;\">Task Assignment Sheet</h2>\n  <table style=\"width:100%; margin-top:15px; border-collapse:collapse;\">\n    <tr><td style=\"padding:6px;\"><b>Assignment ID:</b></td><td>{{ doc.name }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Assigned To:</b></td><td>{{ doc.assigned_to }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Assigned By:</b></td><td>{{ doc.assigned_by }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Team:</b></td><td>{{ doc.team }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Priority:</b></td><td>{{ doc.priority }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Assigned Date:</b></td><td>{{ doc.assigned_date }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Due Date:</b></td><td>{{ doc.due_date }}</td></tr>\n    <tr><td style=\"padding:6px;\"><b>Status:</b></td><td>{{ doc.status }}</td></tr>\n  </table>\n  <h4 style=\"margin-top:20px;\">Instructions</h4>\n  <div style=\"border:1px solid #ddd; padding:10px; min-height:80px;\">{{ doc.instructions or \"\" }}</div>\n</div>"
+ }
+]

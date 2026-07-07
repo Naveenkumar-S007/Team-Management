@@ -1,0 +1,65 @@
+[
+ {
+  "doctype": "Number Card",
+  "name": "Total Tasks Assigned",
+  "label": "Total Tasks Assigned",
+  "document_type": "Work Assignment",
+  "function": "Count",
+  "is_public": 1,
+  "show_percentage_stats": 1,
+  "stats_time_interval": "Weekly",
+  "module": "Team Management",
+  "filters_json": "[]",
+  "color": "#2E86DE"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Tasks In Progress",
+  "label": "Tasks In Progress",
+  "document_type": "Work Assignment",
+  "function": "Count",
+  "is_public": 1,
+  "show_percentage_stats": 1,
+  "stats_time_interval": "Weekly",
+  "module": "Team Management",
+  "filters_json": "[[\"Work Assignment\",\"status\",\"=\",\"In Progress\"]]",
+  "color": "#F39C12"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Tasks Completed This Month",
+  "label": "Tasks Completed (This Month)",
+  "document_type": "Work Log",
+  "function": "Count",
+  "is_public": 1,
+  "show_percentage_stats": 0,
+  "module": "Team Management",
+  "filters_json": "[[\"Work Log\",\"status\",\"=\",\"Completed\"]]",
+  "color": "#27AE60"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Pending Requirements",
+  "label": "Pending Requirements",
+  "document_type": "Work Requirement",
+  "function": "Count",
+  "is_public": 1,
+  "show_percentage_stats": 1,
+  "stats_time_interval": "Weekly",
+  "module": "Team Management",
+  "filters_json": "[[\"Work Requirement\",\"status\",\"=\",\"Open\"]]",
+  "color": "#E67E22"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Overdue Tasks",
+  "label": "Overdue Tasks",
+  "document_type": "Work Assignment",
+  "function": "Count",
+  "is_public": 1,
+  "show_percentage_stats": 0,
+  "module": "Team Management",
+  "filters_json": "[[\"Work Assignment\",\"status\",\"!=\",\"Completed\"],[\"Work Assignment\",\"due_date\",\"<\",\"Today\"]]",
+  "color": "#C0392B"
+ }
+]

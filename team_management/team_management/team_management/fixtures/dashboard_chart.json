@@ -1,0 +1,59 @@
+[
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Work Status Breakdown",
+  "chart_name": "Work Status Breakdown",
+  "chart_type": "Group By",
+  "document_type": "Work Assignment",
+  "group_by_type": "Count",
+  "group_by_based_on": "status",
+  "type": "Donut",
+  "is_public": 1,
+  "module": "Team Management",
+  "timeseries": 0,
+  "filters_json": "[]"
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Member-wise Task Load",
+  "chart_name": "Member-wise Task Load",
+  "chart_type": "Group By",
+  "document_type": "Work Assignment",
+  "group_by_type": "Count",
+  "group_by_based_on": "assigned_to",
+  "type": "Bar",
+  "is_public": 1,
+  "module": "Team Management",
+  "timeseries": 0,
+  "filters_json": "[]"
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Requirements Trend",
+  "chart_name": "Requirements Trend",
+  "chart_type": "Count",
+  "document_type": "Work Requirement",
+  "type": "Line",
+  "is_public": 1,
+  "module": "Team Management",
+  "timeseries": 1,
+  "time_interval": "Monthly",
+  "based_on": "creation",
+  "timespan": "Last Year",
+  "filters_json": "[]"
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Work Log Completion Rate",
+  "chart_name": "Work Log Completion Rate",
+  "chart_type": "Group By",
+  "document_type": "Work Log",
+  "group_by_type": "Count",
+  "group_by_based_on": "status",
+  "type": "Percentage",
+  "is_public": 1,
+  "module": "Team Management",
+  "timeseries": 0,
+  "filters_json": "[]"
+ }
+]

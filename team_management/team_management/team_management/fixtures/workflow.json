@@ -1,0 +1,60 @@
+[
+ {
+  "doctype": "Workflow",
+  "name": "Work Requirement Workflow",
+  "workflow_name": "Work Requirement Workflow",
+  "document_type": "Work Requirement",
+  "is_active": 1,
+  "send_email_alert": 0,
+  "workflow_state_field": "status",
+  "states": [
+   {
+    "doctype": "Workflow Document State",
+    "state": "Open",
+    "doc_status": "0",
+    "allow_edit": "Functional Team"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Assigned",
+    "doc_status": "0",
+    "allow_edit": "Team Head"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "In Progress",
+    "doc_status": "0",
+    "allow_edit": "Team Head"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Completed",
+    "doc_status": "1",
+    "allow_edit": "Team Head"
+   }
+  ],
+  "transitions": [
+   {
+    "doctype": "Workflow Transition",
+    "state": "Open",
+    "action": "Assign",
+    "next_state": "Assigned",
+    "allowed": "Team Head"
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Assigned",
+    "action": "Start",
+    "next_state": "In Progress",
+    "allowed": "Team Head"
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "In Progress",
+    "action": "Complete",
+    "next_state": "Completed",
+    "allowed": "Team Head"
+   }
+  ]
+ }
+]

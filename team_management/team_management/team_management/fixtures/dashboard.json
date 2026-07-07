@@ -1,0 +1,22 @@
+[
+ {
+  "doctype": "Dashboard",
+  "name": "Team Work Dashboard",
+  "dashboard_name": "Team Work Dashboard",
+  "module": "Team Management",
+  "is_default": 0,
+  "cards": [
+   {"doctype": "Dashboard Card", "card": "Total Tasks Assigned"},
+   {"doctype": "Dashboard Card", "card": "Tasks In Progress"},
+   {"doctype": "Dashboard Card", "card": "Tasks Completed This Month"},
+   {"doctype": "Dashboard Card", "card": "Pending Requirements"},
+   {"doctype": "Dashboard Card", "card": "Overdue Tasks"}
+  ],
+  "charts": [
+   {"doctype": "Dashboard Chart Link", "chart": "Work Status Breakdown"},
+   {"doctype": "Dashboard Chart Link", "chart": "Member-wise Task Load"},
+   {"doctype": "Dashboard Chart Link", "chart": "Requirements Trend"},
+   {"doctype": "Dashboard Chart Link", "chart": "Work Log Completion Rate"}
+  ]
+ }
+]

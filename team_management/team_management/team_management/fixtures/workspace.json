@@ -1,0 +1,104 @@
+[
+ {
+  "doctype": "Workspace",
+  "name": "Team Management",
+  "label": "Team Management",
+  "title": "Team Management",
+  "module": "Team Management",
+  "public": 1,
+  "is_hidden": 0,
+  "icon": "task",
+  "indicator_color": "blue",
+  "sequence_id": 1,
+  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Team Management</b></span>\",\"col\":12}},{\"type\":\"paragraph\",\"data\":{\"text\":\"Track requirements, assignments and daily work logs for your team.\",\"col\":12}},{\"type\":\"dashboard\",\"data\":{\"dashboard_name\":\"Team Work Dashboard\",\"col\":12}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Requirement\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Assignment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Log\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Performance Summary\",\"col\":3}}]",
+  "shortcuts": [
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Team",
+    "link_to": "Team",
+    "type": "DocType",
+    "color": "Blue"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Work Requirement",
+    "link_to": "Work Requirement",
+    "type": "DocType",
+    "color": "Orange"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Work Assignment",
+    "link_to": "Work Assignment",
+    "type": "DocType",
+    "color": "Green"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Work Log",
+    "link_to": "Work Log",
+    "type": "DocType",
+    "color": "Yellow"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Team Performance Summary",
+    "link_to": "Team Performance Summary",
+    "type": "Report",
+    "color": "Purple"
+   }
+  ],
+  "links": [
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
+    "label": "Setup"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Team",
+    "label": "Team"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
+    "label": "Work Tracking"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Work Requirement",
+    "label": "Work Requirement"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Work Assignment",
+    "label": "Work Assignment"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Work Log",
+    "label": "Work Log"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
+    "label": "Reports"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "Report",
+    "link_to": "Team Performance Summary",
+    "label": "Team Performance Summary"
+   }
+  ]
+ }
+]

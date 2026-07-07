@@ -1,0 +1,26 @@
+[
+ {
+  "doctype": "Role",
+  "role_name": "Team Head",
+  "name": "Team Head",
+  "desk_access": 1,
+  "disabled": 0,
+  "is_custom": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Team Member",
+  "name": "Team Member",
+  "desk_access": 1,
+  "disabled": 0,
+  "is_custom": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Functional Team",
+  "name": "Functional Team",
+  "desk_access": 1,
+  "disabled": 0,
+  "is_custom": 1
+ }
+]
