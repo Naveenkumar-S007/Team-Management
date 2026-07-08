@@ -4,6 +4,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils import nowdate
 
 
 class WorkAssignment(Document):
@@ -31,7 +32,7 @@ class WorkAssignment(Document):
 
 		protected_fields = [
 			"work_requirement", "team", "assigned_to", "assigned_by",
-			"assigned_date", "due_date", "priority", "instructions",
+			"assigned_date", "due_date", "priority", "instructions", "project",
 		]
 		for field in protected_fields:
 			self.set(field, old_doc.get(field))
@@ -40,3 +41,4 @@ class WorkAssignment(Document):
 		if self.work_requirement:
 			frappe.db.set_value("Work Requirement", self.work_requirement, "status", self.status)
 			frappe.db.set_value("Work Requirement", self.work_requirement, "linked_assignment", self.name)
+

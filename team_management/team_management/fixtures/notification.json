@@ -56,5 +56,45 @@
    }
   ],
   "message": "<p>{{ doc.assigned_to }} has marked assignment <b>{{ doc.name }}</b> as Completed.</p>"
+ },
+ {
+  "doctype": "Notification",
+  "name": "Team Management - Leave Application Status Changed",
+  "subject": "Leave Application {{ doc.status }}: {{ doc.name }}",
+  "document_type": "Leave Application",
+  "event": "Value Change",
+  "value_changed": "status",
+  "channel": "Email",
+  "enabled": 1,
+  "send_system_notification": 1,
+  "attach_print": 0,
+  "condition": "doc.status in ['Approved', 'Rejected']",
+  "recipients": [
+   {
+    "receiver_by_document_field": "member",
+    "doctype": "Notification Recipient"
+   }
+  ],
+  "message": "<p>Your leave application <b>{{ doc.name }}</b> has been <b>{{ doc.status }}</b>.</p><p>Leave Type: {{ doc.leave_type }}<br>From: {{ doc.from_date }} To: {{ doc.to_date }}<br>Approved/Rejected By: {{ doc.approved_by }}<br>Remarks: {{ doc.approval_remarks }}</p>"
+ },
+ {
+  "doctype": "Notification",
+  "name": "Team Management - Feedback Given",
+  "subject": "Feedback Given for Assignment: {{ doc.name }}",
+  "document_type": "Work Assignment",
+  "event": "Value Change",
+  "value_changed": "status",
+  "channel": "Email",
+  "enabled": 1,
+  "send_system_notification": 1,
+  "attach_print": 0,
+  "condition": "doc.status == 'Completed'",
+  "recipients": [
+   {
+    "receiver_by_document_field": "assigned_to",
+    "doctype": "Notification Recipient"
+   }
+  ],
+  "message": "<p>Your team head has marked <b>{{ doc.name }}</b> as Completed.</p><p>Please check the feedback section for your review.</p>"
  }
 ]

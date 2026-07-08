@@ -56,5 +56,50 @@
     "allowed": "Team Head"
    }
   ]
+ },
+ {
+  "doctype": "Workflow",
+  "name": "Leave Application Workflow",
+  "workflow_name": "Leave Application Workflow",
+  "document_type": "Leave Application",
+  "is_active": 1,
+  "send_email_alert": 0,
+  "workflow_state_field": "status",
+  "states": [
+   {
+    "doctype": "Workflow Document State",
+    "state": "Pending Approval",
+    "doc_status": "0",
+    "allow_edit": "Team Member"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Approved",
+    "doc_status": "1",
+    "allow_edit": "Team Head"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Rejected",
+    "doc_status": "2",
+    "allow_edit": "Team Head"
+   }
+  ],
+  "transitions": [
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Approval",
+    "action": "Approve",
+    "next_state": "Approved",
+    "allowed": "Team Head"
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Approval",
+    "action": "Reject",
+    "next_state": "Rejected",
+    "allowed": "Team Head"
+   }
+  ]
  }
 ]

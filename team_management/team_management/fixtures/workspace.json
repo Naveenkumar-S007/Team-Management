@@ -9,8 +9,8 @@
   "is_hidden": 0,
   "icon": "task",
   "indicator_color": "blue",
-  "sequence_id": 1,
-  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Team Management</b></span>\",\"col\":12}},{\"type\":\"paragraph\",\"data\":{\"text\":\"Track requirements, assignments and daily work logs for your team.\",\"col\":12}},{\"type\":\"dashboard\",\"data\":{\"dashboard_name\":\"Team Work Dashboard\",\"col\":12}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Requirement\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Assignment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Log\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Performance Summary\",\"col\":3}}]",
+  "sequence_id": 9,
+  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Team Management</b></span>\",\"col\":12}},{\"type\":\"paragraph\",\"data\":{\"text\":\"Track projects, requirements, assignments, attendance, and team updates.\",\"col\":12}},{\"type\":\"dashboard\",\"data\":{\"dashboard_name\":\"Team Work Dashboard\",\"col\":12}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Requirement\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Assignment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Log\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Update\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Holiday\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance Dashboard\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Tracking Summary\",\"col\":3}}]",
   "shortcuts": [
    {
     "doctype": "Workspace Shortcut",
@@ -18,6 +18,13 @@
     "link_to": "Team",
     "type": "DocType",
     "color": "Blue"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Project",
+    "link_to": "Project",
+    "type": "DocType",
+    "color": "Dark Blue"
    },
    {
     "doctype": "Workspace Shortcut",
@@ -42,10 +49,45 @@
    },
    {
     "doctype": "Workspace Shortcut",
+    "label": "Leave Application",
+    "link_to": "Leave Application",
+    "type": "DocType",
+    "color": "Purple"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Team Update",
+    "link_to": "Team Update",
+    "type": "DocType",
+    "color": "Red"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Holiday",
+    "link_to": "Holiday",
+    "type": "DocType",
+    "color": "Green"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Attendance Dashboard",
+    "link_to": "Attendance Dashboard",
+    "type": "Report",
+    "color": "Cyan"
+   },
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Time Tracking Summary",
+    "link_to": "Time Tracking Summary",
+    "type": "Report",
+    "color": "Pink"
+   },
+   {
+    "doctype": "Workspace Shortcut",
     "label": "Team Performance Summary",
     "link_to": "Team Performance Summary",
     "type": "Report",
-    "color": "Purple"
+    "color": "Dark Blue"
    }
   ],
   "links": [
@@ -60,6 +102,25 @@
     "link_type": "DocType",
     "link_to": "Team",
     "label": "Team"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Holiday",
+    "label": "Holiday Calendar"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
+    "label": "Projects"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Project",
+    "label": "Project"
    },
    {
     "doctype": "Workspace Link",
@@ -90,7 +151,52 @@
    {
     "doctype": "Workspace Link",
     "type": "Card Break",
+    "label": "Leave & Attendance"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Leave Application",
+    "label": "Leave Application"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Holiday",
+    "label": "Holiday"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
+    "label": "Team Communication"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "DocType",
+    "link_to": "Team Update",
+    "label": "Team Update"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
     "label": "Reports"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "Report",
+    "link_to": "Attendance Dashboard",
+    "label": "Attendance Dashboard"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "Report",
+    "link_to": "Time Tracking Summary",
+    "label": "Time Tracking Summary"
    },
    {
     "doctype": "Workspace Link",

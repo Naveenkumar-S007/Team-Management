@@ -2,42 +2,42 @@
  "actions": [],
  "allow_rename": 0,
  "autoname": "naming_series:",
- "creation": "2026-01-01 10:00:00.000000",
+ "creation": "2026-07-08 12:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "work_requirement",
+  "project_name",
   "team",
   "column_break_1",
-  "assigned_to",
-  "assigned_by",
-  "project",
-  "section_break_1",
-  "assigned_date",
-  "due_date",
-  "priority",
-  "column_break_2",
   "status",
+  "priority",
+  "section_break_1",
+  "start_date",
+  "end_date",
+  "column_break_2",
+  "is_active",
   "section_break_2",
-  "instructions",
+  "description",
   "section_break_3",
-  "feedback"
+  "milestones"
  ],
  "fields": [
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "WA-.YYYY.-",
+   "options": "PRJ-.YYYY.-",
    "print_hide": 1,
    "reqd": 1
   },
   {
-   "fieldname": "work_requirement",
-   "fieldtype": "Link",
-   "label": "Related Requirement",
-   "options": "Work Requirement"
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Project Name",
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "team",
@@ -53,38 +53,13 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "assigned_to",
-   "fieldtype": "Link",
+   "default": "Planning",
+   "fieldname": "status",
+   "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Assigned To",
-   "options": "User",
-   "reqd": 1
-  },
-  {
-   "default": "__user",
-   "fieldname": "assigned_by",
-   "fieldtype": "Link",
-   "label": "Assigned By",
-   "options": "User",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_1",
-   "fieldtype": "Section Break",
-   "label": "Schedule"
-  },
-  {
-   "default": "Today",
-   "fieldname": "assigned_date",
-   "fieldtype": "Date",
-   "label": "Assigned Date"
-  },
-  {
-   "fieldname": "due_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Due Date"
+   "label": "Status",
+   "options": "Planning\nActive\nOn Hold\nCompleted\nCancelled"
   },
   {
    "default": "Medium",
@@ -92,51 +67,72 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Priority",
-   "options": "Low\nMedium\nHigh\nUrgent"
+   "options": "Low\nMedium\nHigh\nCritical"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Timeline"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "Target End Date"
   },
   {
    "fieldname": "column_break_2",
    "fieldtype": "Column Break"
   },
   {
-   "default": "Assigned",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Status",
-   "options": "Assigned\nIn Progress\nCompleted\nOn Hold"
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
   },
   {
    "fieldname": "section_break_2",
    "fieldtype": "Section Break",
-   "label": "Instructions"
+   "label": "Description"
   },
   {
-   "fieldname": "instructions",
+   "fieldname": "description",
    "fieldtype": "Text Editor",
-   "label": "Instructions For Member"
+   "label": "Project Description"
   },
   {
-   "collapsible": 1,
-   "collapsible_depends_on": "eval:doc.status == 'Completed'",
    "fieldname": "section_break_3",
    "fieldtype": "Section Break",
-   "label": "Feedback & Rating (Team Head only)"
+   "label": "Milestones"
   },
   {
-   "fieldname": "feedback",
+   "fieldname": "milestones",
    "fieldtype": "Table",
-   "label": "Feedback",
-   "options": "Assignment Feedback"
+   "label": "Project Milestones",
+   "options": "Project Milestone"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-01-01 10:00:00.000000",
+ "links": [
+  {
+   "group": "Work Items",
+   "link_doctype": "Work Requirement",
+   "link_fieldname": "project"
+  },
+  {
+   "group": "Work Items",
+   "link_doctype": "Work Assignment",
+   "link_fieldname": "project"
+  }
+ ],
+ "modified": "2026-07-08 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Team Management",
- "name": "Work Assignment",
+ "name": "Project",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
@@ -170,8 +166,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Team Member",
-   "write": 1
+   "role": "Team Member"
   }
  ],
  "sort_field": "modified",

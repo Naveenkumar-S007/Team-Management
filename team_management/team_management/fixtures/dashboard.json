@@ -10,13 +10,24 @@
    {"doctype": "Dashboard Card", "card": "Tasks In Progress"},
    {"doctype": "Dashboard Card", "card": "Tasks Completed This Month"},
    {"doctype": "Dashboard Card", "card": "Pending Requirements"},
-   {"doctype": "Dashboard Card", "card": "Overdue Tasks"}
+   {"doctype": "Dashboard Card", "card": "Overdue Tasks"},
+   {"doctype": "Dashboard Card", "card": "Leave Applications Pending"},
+   {"doctype": "Dashboard Card", "card": "Leaves Approved This Month"},
+   {"doctype": "Dashboard Card", "card": "Team Updates Today"},
+   {"doctype": "Dashboard Card", "card": "Active Projects"},
+   {"doctype": "Dashboard Card", "card": "Upcoming Holidays"},
+   {"doctype": "Dashboard Card", "card": "Members Present Today"}
   ],
   "charts": [
    {"doctype": "Dashboard Chart Link", "chart": "Work Status Breakdown"},
    {"doctype": "Dashboard Chart Link", "chart": "Member-wise Task Load"},
    {"doctype": "Dashboard Chart Link", "chart": "Requirements Trend"},
-   {"doctype": "Dashboard Chart Link", "chart": "Work Log Completion Rate"}
+   {"doctype": "Dashboard Chart Link", "chart": "Work Log Completion Rate"},
+   {"doctype": "Dashboard Chart Link", "chart": "Leave Status Breakdown"},
+   {"doctype": "Dashboard Chart Link", "chart": "Leave Trend"},
+   {"doctype": "Dashboard Chart Link", "chart": "Team Update Type Breakdown"},
+   {"doctype": "Dashboard Chart Link", "chart": "Project Status Overview"},
+   {"doctype": "Dashboard Chart Link", "chart": "Hours Logged Per Member"}
   ]
  }
 ]

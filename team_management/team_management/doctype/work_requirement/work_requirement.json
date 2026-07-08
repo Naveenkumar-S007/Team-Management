@@ -13,6 +13,7 @@
   "requested_by",
   "priority",
   "due_date",
+  "project",
   "section_break_1",
   "description",
   "attachment",
@@ -71,6 +72,13 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Expected Due Date"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Project",
+   "options": "Project"
   },
   {
    "fieldname": "section_break_1",
