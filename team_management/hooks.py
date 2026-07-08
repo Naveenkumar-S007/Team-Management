@@ -94,10 +94,6 @@ website_context = {
 	}
 }
 
-# Boot Session
-# ------------
-boot_session = "team_management.team_management.utils.boot_session"
-
 # Permission Query Conditions
 # ---------------------------
 # Restrict list views at the query level based on role (defense in depth,
