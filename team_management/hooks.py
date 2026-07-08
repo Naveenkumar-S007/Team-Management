@@ -8,8 +8,19 @@ app_version = "1.0.0"
 
 # Includes in <head>
 # ------------------
-# app_include_css = "/assets/team_management/css/team_management.css"
-# app_include_js = "/assets/team_management/js/team_management.js"
+app_include_css = "/assets/team_management/css/team_management.bundle.css"
+app_include_js = "/assets/team_management/js/team_management.bundle.js"
+
+# Doctype-specific JavaScript
+# ----------------------------
+doctype_js = {
+	"Leave Application": "public/js/team_management.js",
+	"Work Log": "public/js/team_management.js",
+	"Team Update": "public/js/team_management.js",
+	"Work Assignment": "public/js/team_management.js",
+	"Team": "public/js/team_management.js",
+	"Project": "public/js/team_management.js",
+}
 
 # Fixtures - exports Notifications, Workflow, Custom Roles, Print Format with the app
 # -------------------------------------------------------------------------------------

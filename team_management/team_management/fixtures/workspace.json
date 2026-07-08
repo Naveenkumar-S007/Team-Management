@@ -10,8 +10,15 @@
   "icon": "task",
   "indicator_color": "blue",
   "sequence_id": 9,
-  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Team Management</b></span>\",\"col\":12}},{\"type\":\"paragraph\",\"data\":{\"text\":\"Track projects, requirements, assignments, attendance, and team updates.\",\"col\":12}},{\"type\":\"dashboard\",\"data\":{\"dashboard_name\":\"Team Work Dashboard\",\"col\":12}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Requirement\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Assignment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Log\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Update\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Holiday\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance Dashboard\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Tracking Summary\",\"col\":3}}]",
+  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Team Management</b></span>\",\"col\":12}},{\"type\":\"paragraph\",\"data\":{\"text\":\"Track projects, requirements, assignments, attendance, and team updates.\",\"col\":12}},{\"type\":\"dashboard\",\"data\":{\"dashboard_name\":\"Team Work Dashboard\",\"col\":12}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Dashboard\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Requirement\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Assignment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Work Log\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Update\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Holiday\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance Dashboard\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Tracking Summary\",\"col\":3}}]",
   "shortcuts": [
+   {
+    "doctype": "Workspace Shortcut",
+    "label": "Team Dashboard",
+    "link_to": "team-dashboard",
+    "type": "Page",
+    "color": "Blue"
+   },
    {
     "doctype": "Workspace Shortcut",
     "label": "Team",
@@ -91,6 +98,18 @@
    }
   ],
   "links": [
+   {
+    "doctype": "Workspace Link",
+    "type": "Card Break",
+    "label": "Dashboard"
+   },
+   {
+    "doctype": "Workspace Link",
+    "type": "Link",
+    "link_type": "Page",
+    "link_to": "team-dashboard",
+    "label": "Team Dashboard"
+   },
    {
     "doctype": "Workspace Link",
     "type": "Card Break",

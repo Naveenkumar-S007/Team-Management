@@ -1,0 +1,412 @@
+/* Team Management - Professional Styling
+   This bundle.css is auto-loaded via hooks.py */
+
+/* ─── Custom Variables ─── */
+:root {
+  --tm-primary: #2563eb;
+  --tm-primary-light: #3b82f6;
+  --tm-primary-dark: #1d4ed8;
+  --tm-success: #10b981;
+  --tm-warning: #f59e0b;
+  --tm-danger: #ef4444;
+  --tm-info: #06b6d4;
+  --tm-purple: #8b5cf6;
+  --tm-pink: #ec4899;
+  --tm-bg: #f8fafc;
+  --tm-card-bg: #ffffff;
+  --tm-border: #e2e8f0;
+  --tm-text: #1e293b;
+  --tm-text-muted: #94a3b8;
+  --tm-radius: 12px;
+  --tm-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --tm-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --tm-transition: all 0.2s ease;
+}
+
+/* ─── Team Management Dashboard Page ─── */
+.team-dashboard-wrapper {
+  padding: 20px;
+  background: var(--tm-bg);
+  min-height: calc(100vh - 100px);
+}
+
+.team-dashboard-wrapper .greeting-header {
+  margin-bottom: 28px;
+}
+
+.team-dashboard-wrapper .greeting-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--tm-text);
+  margin: 0 0 4px 0;
+}
+
+.team-dashboard-wrapper .greeting-header .subtitle {
+  color: var(--tm-text-muted);
+  font-size: 14px;
+}
+
+/* ─── Stats Cards Row ─── */
+.stats-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--tm-card-bg);
+  border-radius: var(--tm-radius);
+  padding: 20px;
+  box-shadow: var(--tm-shadow);
+  border: 1px solid var(--tm-border);
+  transition: var(--tm-transition);
+  cursor: default;
+}
+
+.stat-card:hover {
+  box-shadow: var(--tm-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.stat-card .stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--tm-text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-card .stat-label {
+  font-size: 13px;
+  color: var(--tm-text-muted);
+  font-weight: 500;
+}
+
+/* Stat card colors */
+.stat-card.blue .stat-icon { background: #dbeafe; color: #2563eb; }
+.stat-card.green .stat-icon { background: #d1fae5; color: #10b981; }
+.stat-card.orange .stat-icon { background: #fef3c7; color: #f59e0b; }
+.stat-card.red .stat-icon { background: #fee2e2; color: #ef4444; }
+.stat-card.purple .stat-icon { background: #ede9fe; color: #8b5cf6; }
+.stat-card.cyan .stat-icon { background: #cffafe; color: #06b6d4; }
+
+/* ─── Action Cards ─── */
+.quick-actions-section {
+  margin-bottom: 28px;
+}
+
+.quick-actions-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tm-text);
+  margin: 0 0 14px 0;
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.action-card {
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--tm-radius);
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--tm-transition);
+  box-shadow: var(--tm-shadow);
+  text-decoration: none;
+  display: block;
+}
+
+.action-card:hover {
+  box-shadow: var(--tm-shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--tm-primary-light);
+}
+
+.action-card .action-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.action-card .action-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tm-text);
+}
+
+.action-card .action-desc {
+  font-size: 11px;
+  color: var(--tm-text-muted);
+  margin-top: 2px;
+}
+
+/* ─── Activity Feed ─── */
+.recent-activity-section {
+  margin-bottom: 28px;
+}
+
+.recent-activity-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tm-text);
+  margin: 0 0 14px 0;
+}
+
+.activity-feed {
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--tm-radius);
+  box-shadow: var(--tm-shadow);
+  overflow: hidden;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--tm-border);
+  transition: var(--tm-transition);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item:hover {
+  background: #f8fafc;
+}
+
+.activity-item .activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.activity-item .activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-item .activity-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tm-text);
+  margin-bottom: 2px;
+}
+
+.activity-item .activity-desc {
+  font-size: 12px;
+  color: var(--tm-text-muted);
+}
+
+.activity-item .activity-time {
+  font-size: 11px;
+  color: var(--tm-text-muted);
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+/* ─── Doctype Form Enhancements ─── */
+
+/* Status badges in form */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.status-badge.pending { background: #fef3c7; color: #92400e; }
+.status-badge.approved,
+.status-badge.completed { background: #d1fae5; color: #065f46; }
+.status-badge.rejected,
+.status-badge.overdue { background: #fee2e2; color: #991b1b; }
+.status-badge.in-progress { background: #dbeafe; color: #1e40af; }
+.status-badge.open { background: #e0e7ff; color: #3730a3; }
+
+/* Card for assignments on Work Log form */
+.assignment-info-card {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 8px 0;
+}
+
+.assignment-info-card .info-label {
+  font-size: 11px;
+  color: #0284c7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.assignment-info-card .info-value {
+  font-size: 14px;
+  color: #0c4a6e;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ─── Leave Application Form ─── */
+.leave-balance-card {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.leave-balance-card .balance-title {
+  font-size: 12px;
+  color: #1e40af;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.leave-balance-card .balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.leave-balance-card .balance-item {
+  text-align: center;
+  padding: 6px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 6px;
+}
+
+.leave-balance-card .balance-item .count {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.leave-balance-card .balance-item .label {
+  font-size: 10px;
+  color: #64748b;
+}
+
+/* ─── Team Update Bubble ─── */
+.update-bubble {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 6px 0;
+}
+
+.update-bubble .update-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.update-bubble .update-author {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.update-bubble .update-date {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.update-bubble .update-text {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* ─── Rating Stars ─── */
+.rating-stars {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.rating-stars .star {
+  font-size: 20px;
+  cursor: pointer;
+  color: #d1d5db;
+  transition: color 0.15s ease;
+}
+
+.rating-stars .star.active,
+.rating-stars .star:hover {
+  color: #f59e0b;
+}
+
+/* ─── Project Progress Bar ─── */
+.progress-bar-wrapper {
+  margin: 8px 0;
+}
+
+.progress-bar-wrapper .progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.progress-bar-wrapper .progress-track {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-wrapper .progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--tm-primary), var(--tm-primary-light));
+  transition: width 0.5s ease;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .stats-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-cards-row {
+    grid-template-columns: 1fr;
+  }
+  .quick-actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
