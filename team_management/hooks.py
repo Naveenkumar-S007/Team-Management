@@ -78,6 +78,26 @@ scheduler_events = {
 after_install = "team_management.team_management.install.after_install"
 after_app_install = "team_management.team_management.install.after_app_installed"
 
+# After migrate: generate demo data
+# ---------------------------------
+after_migrate = [
+	"team_management.team_management.demo._create_demo_data"
+]
+
+# Website / Web View
+# ------------------
+website_context = {
+	"team_management": {
+		"title": "Team Management",
+		"icon": "task",
+		"color": "blue"
+	}
+}
+
+# Boot Session
+# ------------
+boot_session = "team_management.team_management.utils.boot_session"
+
 # Permission Query Conditions
 # ---------------------------
 # Restrict list views at the query level based on role (defense in depth,
