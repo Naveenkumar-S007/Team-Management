@@ -10,7 +10,6 @@ def create_leave(leave_type, from_date, to_date, reason, team, member=None):
 		if not member:
 			member = frappe.session.user
 
-		# Calculate total days
 		from frappe.utils import date_diff
 		days = date_diff(to_date, from_date) + 1
 
@@ -82,7 +81,6 @@ def get_recent_work_logs():
 		order_by="creation desc",
 		limit=20
 	)
-	# Add member names
 	for log in logs:
 		log["member_name"] = frappe.db.get_value("User", log.member, "full_name") or log.member
 	return logs
@@ -161,7 +159,6 @@ def get_member_details(member):
 		["full_name", "mobile_no", "designation", "department", "user_image"],
 		as_dict=True
 	) or {}
-	# Get team info
 	team_member = frappe.db.get_value("Team Member",
 		{"member": member},
 		["team"],

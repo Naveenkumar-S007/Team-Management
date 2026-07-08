@@ -4,6 +4,7 @@ from frappe.utils import today, add_days, now_datetime
 from random import choice, randint, sample
 import os
 
+
 def generate_demo_data():
 	"""Generate comprehensive demo data for the Team Management app."""
 	if frappe.flags.in_install:
@@ -12,13 +13,11 @@ def generate_demo_data():
 	if frappe.db.get_single_value("System Settings", "setup_complete"):
 		_create_demo_data()
 	else:
-		# Schedule for later if setup not complete
 		pass
 
 
 def _create_demo_data():
 	"""Create demo teams, members, projects, leaves, and work logs."""
-	# Check if demo data already exists
 	if frappe.db.exists("Team", "Engineering Team"):
 		print("✅ Demo data already exists. Skipping...")
 		return
@@ -56,7 +55,6 @@ def _create_demo_data():
 		"Charlie Brown", "Diana Ross"
 	]
 
-	# Create users if they don't exist
 	created_members = []
 	for i, email in enumerate(member_emails):
 		if not frappe.db.exists("User", email):
@@ -75,7 +73,6 @@ def _create_demo_data():
 
 		created_members.append(email)
 
-	# Assign members to teams
 	for i, email in enumerate(created_members):
 		team = team_names[i % len(team_names)]
 		if not frappe.db.exists("Team Member", {"member": email, "team": team}):
@@ -160,7 +157,6 @@ def _create_demo_data():
 		})
 		assg.insert(ignore_permissions=True)
 
-		# Add feedback for completed items
 		if status == "Completed":
 			feedback = assg.append("feedback", {
 				"rating": randint(3, 5),
