@@ -73,6 +73,11 @@ scheduler_events = {
 	]
 }
 
+# After Install
+# -------------
+after_install = "team_management.team_management.install.after_install"
+after_app_install = "team_management.team_management.install.after_app_installed"
+
 # Permission Query Conditions
 # ---------------------------
 # Restrict list views at the query level based on role (defense in depth,

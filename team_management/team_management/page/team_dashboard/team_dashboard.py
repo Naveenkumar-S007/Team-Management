@@ -38,7 +38,7 @@ def get_dashboard_stats():
 	stats["open_assignments"] = frappe.db.count("Work Assignment", open_filters)
 
 	# Work logs today
-	log_today_filters = {"log_date": today_str, "member": user} if not is_team_head else {"log_date": today_str}
+	log_today_filters = {"date": today_str}
 	if not is_team_head:
 		log_today_filters["member"] = user
 	stats["logged_today"] = frappe.db.count("Work Log", log_today_filters)
@@ -72,7 +72,7 @@ def get_recent_activity(limit=15):
 	activities = []
 
 	# Recent Work Logs
-	log_fields = ["name", "member", "log_date", "hours_logged", "description", "creation"]
+	log_fields = ["name", "member", "date", "hours_spent", "task_description", "creation"]
 	log_filters = {}
 	if not is_team_head and team:
 		log_filters["team"] = team
@@ -87,11 +87,13 @@ def get_recent_activity(limit=15):
 	)
 	for log in logs:
 		user_name = frappe.db.get_value("User", log.member, "full_name") or log.member
+		desc = log.task_description[:80] + "..." if log.task_description and len(log.task_description) > 80 else (log.task_description or "")
+		hours = f" ({log.hours_spent}h)" if log.hours_spent else ""
 		activities.append({
 			"doctype": log.doctype,
 			"name": log.name,
-			"title": f"{user_name} logged work",
-			"description": log.description[:80] + "..." if log.description and len(log.description) > 80 else (log.description or ""),
+			"title": f"{user_name} logged work{hours}",
+			"description": desc,
 			"icon": "📝",
 			"icon_color": "blue",
 			"creation": log.creation
