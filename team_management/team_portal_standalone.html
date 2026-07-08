@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Management - Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --sidebar: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-active: #2563eb;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --radius: 10px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08);
+            --transition: all 0.2s ease;
+        }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            line-height: 1.5;
+        }
+        .sidebar {
+            width: 240px; min-height: 100vh;
+            background: var(--sidebar); color: #cbd5e1;
+            display: flex; flex-direction: column;
+            position: fixed; left: 0; top: 0; z-index: 100;
+        }
+        .sidebar-brand {
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .sidebar-brand .brand-icon {
+            width: 36px; height: 36px; background: var(--primary);
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: white; font-size: 16px; font-weight: 700;
+        }
+        .sidebar-brand .brand-text { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+        .sidebar-brand .brand-sub { font-size: 11px; color: #64748b; }
+        .sidebar-nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+        .sidebar-label {
+            font-size: 10px; font-weight: 600; color: #475569;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            padding: 16px 14px 6px;
+        }
+        .sidebar-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 14px; border-radius: 8px;
+            font-size: 13px; font-weight: 500; color: #94a3b8;
+            transition: var(--transition); cursor: pointer; margin-bottom: 1px;
+        }
+        .sidebar-item:hover { background: var(--sidebar-hover); color: #e2e8f0; }
+        .sidebar-item.active { background: var(--sidebar-active); color: white; }
+        .sidebar-item .icon { font-size: 16px; width: 20px; text-align: center; }
+        .main { flex: 1; margin-left: 240px; min-height: 100vh; }
+        .topbar {
+            background: var(--card); border-bottom: 1px solid var(--border);
+            padding: 0 32px; height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
+        }
+        .topbar h1 { font-size: 18px; font-weight: 700; }
+        .topbar .actions a {
+            font-size: 13px; font-weight: 500; padding: 6px 14px;
+            border-radius: 6px; background: #f1f5f9; color: var(--text);
+            text-decoration: none; transition: var(--transition);
+        }
+        .topbar .actions a:hover { background: #e2e8f0; }
+        .content { padding: 28px 32px; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin-bottom: 24px; }
+        .stat-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 18px;
+            box-shadow: var(--shadow); transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .stat-card.primary::before { background: var(--primary); }
+        .stat-card.success::before { background: var(--success); }
+        .stat-card.warning::before { background: var(--warning); }
+        .stat-card.danger::before { background: var(--danger); }
+        .stat-card.info::before { background: var(--info); }
+        .stat-card.purple::before { background: var(--purple); }
+        .stat-card .stat-icon { font-size: 20px; margin-bottom: 10px; }
+        .stat-card .stat-value { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .stat-card .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+        .stat-card.primary .stat-value { color: var(--primary); }
+        .stat-card.success .stat-value { color: var(--success); }
+        .stat-card.warning .stat-value { color: var(--warning); }
+        .stat-card.danger .stat-value { color: var(--danger); }
+        .stat-card.info .stat-value { color: var(--info); }
+        .stat-card.purple .stat-value { color: var(--purple); }
+        .section { margin-bottom: 28px; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .section-header h2 { font-size: 16px; font-weight: 700; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+        .feature-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 20px;
+            box-shadow: var(--shadow); transition: var(--transition); cursor: pointer;
+        }
+        .feature-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--primary-light); }
+        .feature-card .card-icon { font-size: 28px; margin-bottom: 10px; }
+        .feature-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .feature-card p { font-size: 12px; color: var(--text-muted); }
+        .activity-list { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+        .activity-item { display: flex; align-items: flex-start; padding: 13px 18px; border-bottom: 1px solid var(--border); transition: var(--transition); }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-item:hover { background: #f8fafc; }
+        .activity-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 12px; font-size: 15px; }
+        .activity-content { flex: 1; min-width: 0; }
+        .activity-title { font-size: 13px; font-weight: 600; margin-bottom: 1px; }
+        .activity-subtitle { font-size: 12px; color: var(--text-muted); }
+        .table-wrapper { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 11px 16px; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; background: #f8fafc; border-bottom: 1px solid var(--border); }
+        td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
+        .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+        .badge-purple { background: #ede9fe; color: #5b21b6; }
+        .badge-gray { background: #f1f5f9; color: #475569; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.5); z-index: 200; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--card); border-radius: 14px; padding: 28px; width: 90%; max-width: 480px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        .btn { padding: 9px 22px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: var(--transition); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .connection-bar {
+            background: var(--primary); color: white; text-align: center;
+            padding: 8px; font-size: 13px; font-weight: 500;
+        }
+        .connection-bar.error { background: var(--danger); }
+        .connection-bar.success { background: var(--success); }
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+        .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state h3 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+        @media (max-width: 768px) {
+            .sidebar { width: 60px; }
+            .sidebar .brand-text, .sidebar .brand-sub, .sidebar .sidebar-label, .sidebar .sidebar-item span { display: none; }
+            .sidebar-brand { padding: 16px 12px; justify-content: center; }
+            .sidebar-item { padding: 10px; justify-content: center; }
+            .main { margin-left: 60px; }
+            .content { padding: 16px; }
+            .topbar { padding: 0 16px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">TM</div>
+            <div><div class="brand-text">Team Portal</div><div class="brand-sub">Standalone Edition</div></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="sidebar-label">Main</div>
+            <div class="sidebar-item active" onclick="switchTab('dashboard')"><span class="icon">📊</span><span>Dashboard</span></div>
+            <div class="sidebar-item" onclick="switchTab('leave')"><span class="icon">📋</span><span>Leave</span></div>
+            <div class="sidebar-item" onclick="switchTab('work')"><span class="icon">⏱️</span><span>Work Log</span></div>
+            <div class="sidebar-item" onclick="switchTab('updates')"><span class="icon">💬</span><span>Updates</span></div>
+            <div class="sidebar-label">Projects</div>
+            <div class="sidebar-item" onclick="switchTab('projects')"><span class="icon">🎯</span><span>Projects</span></div>
+            <div class="sidebar-item" onclick="switchTab('team')"><span class="icon">👥</span><span>Team</span></div>
+        </nav>
+    </aside>
+    <div class="main">
+        <div id="connection-bar" class="connection-bar">🔄 Connecting to Team Management server...</div>
+        <header class="topbar">
+            <h1 id="page-title">Dashboard</h1>
+            <div class="actions">
+                <a href="https://github.com/Naveenkumar-S007/Team-Management" target="_blank">📦 GitHub</a>
+            </div>
+        </header>
+        <div class="content">
+            <div id="tab-dashboard" class="tab-content active">
+                <div class="section"><p style="color:var(--text-muted);font-size:14px;">Your team management overview</p></div>
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-card primary"><div class="stat-icon">📋</div><div class="stat-value" id="stat-pending-leaves">0</div><div class="stat-label">Pending Leaves</div></div>
+                    <div class="stat-card success"><div class="stat-icon">📊</div><div class="stat-value" id="stat-active-projects">0</div><div class="stat-label">Active Projects</div></div>
+                    <div class="stat-card warning"><div class="stat-icon">🎯</div><div class="stat-value" id="stat-open-tasks">0</div><div class="stat-label">Open Tasks</div></div>
+                    <div class="stat-card info"><div class="stat-icon">⏱️</div><div class="stat-value" id="stat-logs-today">0</div><div class="stat-label">Logs Today</div></div>
+                    <div class="stat-card purple"><div class="stat-icon">💬</div><div class="stat-value" id="stat-updates-today">0</div><div class="stat-label">Updates Today</div></div>
+                    <div class="stat-card danger"><div class="stat-icon">⚠️</div><div class="stat-value" id="stat-overdue">0</div><div class="stat-label">Overdue Tasks</div></div>
+                </div>
+                <div class="section">
+                    <div class="section-header"><h2>⚡ Quick Actions</h2></div>
+                    <div class="card-grid">
+                        <div class="feature-card" onclick="switchTab('leave')"><div class="card-icon">📋</div><h3>Apply Leave</h3><p>Submit a new leave application</p></div>
+                        <div class="feature-card" onclick="switchTab('work')"><div class="card-icon">📝</div><h3>Log Work</h3><p>Record your daily work hours</p></div>
+                        <div class="feature-card" onclick="switchTab('updates')"><div class="card-icon">📢</div><h3>Post Update</h3><p>Share with your team</p></div>
+                        <div class="feature-card" onclick="switchTab('projects')"><div class="card-icon">📊</div><h3>View Projects</h3><p>Browse all projects</p></div>
+                        <div class="feature-card" onclick="switchTab('team')"><div class="card-icon">👥</div><h3>Team Directory</h3><p>View team members</p></div>
+                        <div class="feature-card" onclick="window.open('https://github.com/Naveenkumar-S007/Team-Management','_blank')"><div class="card-icon">📦</div><h3>GitHub Repo</h3><p>View source code</p></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-header"><h2>🕐 Recent Activity</h2></div>
+                    <div class="activity-list" id="activity-feed">
+                        <div class="empty-state"><div class="empty-icon">📭</div><h3>Loading...</h3></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-leave" class="tab-content">
+                <div class="section"><p style="color:var(--text-muted);font-size:14px;">Leave applications overview</p></div>
+                <div class="section"><div class="section-header"><h2>📋 Leave Applications</h2></div>
+                <div class="table-wrapper"><table><thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead><tbody id="leave-table"><tr><td colspan="5" class="empty-state"><div class="empty-icon">📋</div><h3>Loading...</h3></td></tr></tbody></table></div></div>
+            </div>
+            <div id="tab-work" class="tab-content">
+                <div class="section"><p style="color:var(--text-muted);font-size:14px;">Work logs overview</p></div>
+                <div class="section"><div class="section-header"><h2>📝 Work Logs</h2></div>
+                <div class="table-wrapper"><table><thead><tr><th>Date</th><th>Member</th><th>Task</th><th>Hours</th></tr></thead><tbody id="work-table"><tr><td colspan="4" class="empty-state"><div class="empty-icon">⏱️</div><h3>Loading...</h3></td></tr></tbody></table></div></div>
+            </div>
+            <div id="tab-updates" class="tab-content">
+                <div class="section"><p style="color:var(--text-muted);font-size:14px;">Team updates feed</p></div>
+                <div class="section"><div class="section-header"><h2>💬 Updates</h2></div><div id="updates-feed"><div class="empty-state"><div class="empty-icon">💬</div><h3>Loading...</h3></div></div></div>
+            </div>
+            <div id="tab-projects" class="tab-content">
+                <div class="section"><p style="color:var(--text-muted);font-size:14px;">Projects overview</p></div>
+                <div class="section"><div class="section-header"><h2>🎯 Projects</h2></div>
+                <div class="table-wrapper"><table><thead><tr><th>Project</th><th>Status</th><th>Start</th><th>End</th><th>Priority</th></tr></thead><tbody id="project-table"><tr><td colspan="5" class="empty-state"><div class="empty-icon">📊</div><h3>Loading...</h3></td></tr></tbody></table></div></div>
+            </div>
+            <div id="tab-team" class="tab-content">
+                <div class="section"><p style="color:var(--text-muted);font-size:14px;">Team directory</p></div>
+                <div class="section"><div class="section-header"><h2>👤 Team Members</h2></div><div id="team-members"><div class="empty-state"><div class="empty-icon">👥</div><h3>Loading...</h3></div></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal"><h2 id="modal-title">Details</h2><div id="modal-content"></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Close</button></div></div>
+    </div>
+    <script>
+        // DEMO DATA
+        var DEMO = {
+            stats: { pending_leaves: 4, active_projects: 6, open_tasks: 12, logs_today: 3, updates_today: 2, overdue: 1 },
+            leaves: [
+                {type:'Sick Leave',from:'2026-07-10',to:'2026-07-11',days:2,status:'Pending Approval'},
+                {type:'Annual Leave',from:'2026-07-15',to:'2026-07-19',days:5,status:'Approved'},
+                {type:'Personal Leave',from:'2026-07-05',to:'2026-07-05',days:1,status:'Approved'},
+                {type:'Casual Leave',from:'2026-06-28',to:'2026-06-28',days:1,status:'Rejected'},
+                {type:'Work From Home',from:'2026-07-08',to:'2026-07-08',days:1,status:'Pending Approval'}
+            ],
+            worklogs: [
+                {date:'2026-07-08',member:'John Doe',task:'API Integration Implementation',hours:6.5},
+                {date:'2026-07-08',member:'Jane Smith',task:'UI Dashboard Design',hours:7},
+                {date:'2026-07-07',member:'Bob Wilson',task:'Database Optimization',hours:8},
+                {date:'2026-07-07',member:'Alice Johnson',task:'Code Review & Testing',hours:5},
+                {date:'2026-07-06',member:'John Doe',task:'Frontend Component Development',hours:7.5}
+            ],
+            updates: [
+                {member:'John Doe',type:'Late Arrival',desc:'Running 30 mins late due to traffic',date:'2026-07-08'},
+                {member:'Jane Smith',type:'Work From Home',desc:'Working from home today',date:'2026-07-08'},
+                {member:'Bob Wilson',type:'General Info',desc:'Completed the sprint milestone!',date:'2026-07-07'}
+            ],
+            projects: [
+                {name:'Mobile App Redesign',status:'In Progress',start:'2026-06-08',end:'2026-08-08',priority:'High'},
+                {name:'Customer Portal v2',status:'In Progress',start:'2026-06-18',end:'2026-08-18',priority:'High'},
+                {name:'Marketing Campaign Q3',status:'Planning',start:'2026-07-08',end:'2026-09-08',priority:'Medium'},
+                {name:'API Integration Module',status:'Completed',start:'2026-05-08',end:'2026-07-03',priority:'High'},
+                {name:'Brand Guidelines',status:'Planning',start:'2026-07-13',end:'2026-08-13',priority:'Low'},
+                {name:'Security Audit Q3',status:'In Progress',start:'2026-07-01',end:'2026-07-31',priority:'High'}
+            ],
+            members: [
+                {name:'John Doe',team:'Engineering',role:'Developer',email:'john@example.com'},
+                {name:'Jane Smith',team:'Design',role:'Designer',email:'jane@example.com'},
+                {name:'Bob Wilson',team:'Engineering',role:'Lead',email:'bob@example.com'},
+                {name:'Alice Johnson',team:'Marketing',role:'Manager',email:'alice@example.com'},
+                {name:'Charlie Brown',team:'Design',role:'Designer',email:'charlie@example.com'},
+                {name:'Diana Ross',team:'Marketing',role:'Executive',email:'diana@example.com'}
+            ],
+            activity: [
+                {title:'John Doe logged 6.5h',subtitle:'API Integration Implementation',color:'blue',icon:'work'},
+                {title:'Jane Smith - Work From Home',subtitle:'Working from home today',color:'cyan',icon:'update'},
+                {title:'Alice Johnson - Annual Leave',subtitle:'Approved',color:'orange',icon:'leave'},
+                {title:'Bob Wilson completed task',subtitle:'Database Optimization',color:'purple',icon:'assignment'},
+                {title:'Jane Smith logged 7h',subtitle:'UI Dashboard Design',color:'blue',icon:'work'}
+            ]
+        };
+
+        function switchTab(tab){
+            document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+            document.getElementById('tab-'+tab).classList.add('active');
+            document.querySelectorAll('.sidebar-item').forEach(function(i){i.classList.remove('active');});
+            var el=document.querySelector('.sidebar-item[onclick*="'+tab+'"]');
+            if(el)el.classList.add('active');
+            var titles={dashboard:'Dashboard',leave:'Leave Management',work:'Work Log',updates:'Team Updates',projects:'Projects',team:'Team Directory'};
+            document.getElementById('page-title').textContent=titles[tab]||'Dashboard';
+        }
+        function openModal(title,content){
+            document.getElementById('modal-title').textContent=title;
+            document.getElementById('modal-content').innerHTML=content;
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+        function closeModal(){document.getElementById('modal-overlay').classList.remove('active');}
+        document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+        function renderData(data){
+            document.getElementById('stat-pending-leaves').textContent=data.stats.pending_leaves;
+            document.getElementById('stat-active-projects').textContent=data.stats.active_projects;
+            document.getElementById('stat-open-tasks').textContent=data.stats.open_tasks;
+            document.getElementById('stat-logs-today').textContent=data.stats.logs_today;
+            document.getElementById('stat-updates-today').textContent=data.stats.updates_today;
+            document.getElementById('stat-overdue').textContent=data.stats.overdue;
+            var lb='',wb='',pb='',uf='',tm='';
+            data.leaves.forEach(function(l){
+                var cls=l.status==='Approved'?'badge-success':l.status==='Rejected'?'badge-danger':'badge-warning';
+                lb+='<tr><td>'+l.type+'</td><td>'+l.from+'</td><td>'+l.to+'</td><td>'+l.days+'</td><td><span class="badge '+cls+'">'+l.status+'</span></td></tr>';
+            });
+            document.getElementById('leave-table').innerHTML=lb||'<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📋</div><h3>No Leaves</h3></div></td></tr>';
+            data.worklogs.forEach(function(w){
+                wb+='<tr><td>'+w.date+'</td><td>'+w.member+'</td><td>'+w.task+'</td><td><strong>'+w.hours+'h</strong></td></tr>';
+            });
+            document.getElementById('work-table').innerHTML=wb||'<tr><td colspan="4"><div class="empty-state"><div class="empty-icon">⏱️</div><h3>No Work Logs</h3></div></td></tr>';
+            data.projects.forEach(function(p){
+                var cls=p.status==='Completed'?'badge-success':p.status==='In Progress'?'badge-info':p.status==='Planning'?'badge-warning':'badge-gray';
+                pb+='<tr><td><strong>'+p.name+'</strong></td><td><span class="badge '+cls+'">'+p.status+'</span></td><td>'+p.start+'</td><td>'+p.end+'</td><td>'+p.priority+'</td></tr>';
+            });
+            document.getElementById('project-table').innerHTML=pb||'<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📊</div><h3>No Projects</h3></div></td></tr>';
+            uf='<div class="activity-list">';
+            data.updates.forEach(function(u){
+                uf+='<div class="activity-item"><div class="activity-icon" style="background:#cffafe;color:#06b6d4;">💬</div><div class="activity-content"><div class="activity-title">'+u.member+' - '+u.type+'</div><div class="activity-subtitle">'+u.desc+'</div></div><div class="activity-time">'+u.date+'</div></div>';
+            });
+            uf+='</div>';
+            document.getElementById('updates-feed').innerHTML=uf||'<div class="empty-state"><div class="empty-icon">💬</div><h3>No Updates</h3></div>';
+            tm='<div class="card-grid">';
+            data.members.forEach(function(m){
+                var initials=m.name.substring(0,2).toUpperCase();
+                tm+='<div class="feature-card" onclick="openMemberDetails(\''+m.email+'\')"><div style="width:40px;height:40px;border-radius:10px;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin-bottom:10px;">'+initials+'</div><h3>'+m.name+'</h3><p>'+m.team+'</p><span class="badge badge-info" style="margin-top:6px;">'+m.role+'</span></div>';
+            });
+            tm+='</div>';
+            document.getElementById('team-members').innerHTML=tm;
+            var af='';
+            data.activity.forEach(function(a){
+                var bg=a.color==='blue'?'#dbeafe;color:#2563eb':a.color==='orange'?'#fef3c7;color:#f59e0b':a.color==='cyan'?'#cffafe;color:#06b6d4':a.color==='purple'?'#ede9fe;color:#8b5cf6':'#f1f5f9;color:#64748b';
+                var ic=a.icon==='work'?'📝':a.icon==='leave'?'📋':a.icon==='update'?'💬':a.icon==='assignment'?'🎯':'📌';
+                af+='<div class="activity-item"><div class="activity-icon" style="background:'+bg+'">'+ic+'</div><div class="activity-content"><div class="activity-title">'+a.title+'</div><div class="activity-subtitle">'+a.subtitle+'</div></div></div>';
+            });
+            document.getElementById('activity-feed').innerHTML=af||'<div class="empty-state"><div class="empty-icon">📭</div><h3>No Activity</h3></div>';
+        }
+        function openMemberDetails(email){
+            var m=DEMO.members.find(function(x){return x.email===email;});
+            if(!m)return;
+            var initials=m.name.substring(0,2).toUpperCase();
+            var h='<div style="text-align:center;margin-bottom:16px;"><div style="width:64px;height:64px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 12px;">'+initials+'</div><h3>'+m.name+'</h3><p style="color:var(--text-muted);font-size:13px;">'+m.email+'</p></div><div style="border-top:1px solid var(--border);padding-top:14px;"><p style="font-size:13px;margin-bottom:6px;"><strong>👥 Team:</strong> '+m.team+'</p><p style="font-size:13px;"><strong>💼 Role:</strong> '+m.role+'</p></div>';
+            openModal('Member Details',h);
+        }
+
+        // Try API first, fall back to demo
+        var bar=document.getElementById('connection-bar');
+        try{
+            var xhr=new XMLHttpRequest();
+            xhr.open('GET',window.location.origin+'/api/method/team_management.team_management.api.get_projects',true);
+            xhr.withCredentials=true;
+            xhr.onload=function(){
+                if(xhr.status===200){
+                    bar.textContent='✅ Connected to Team Management server!';
+                    bar.className='connection-bar success';
+                    setTimeout(function(){bar.style.display='none';},3000);
+                    try{
+                        var p=JSON.parse(xhr.responseText);
+                        // We only got projects, use demo for the rest since we can't get all data easily
+                        // Actually let's just use demo data since API requires login
+                        renderData(DEMO);
+                        bar.textContent='✅ Connected! Showing sample data (login required for live data).';
+                        bar.className='connection-bar success';
+                    }catch(e){renderData(DEMO);}
+                }else{
+                    bar.textContent='ℹ️ Using demo data (server connected, login required for live data)';
+                    bar.className='connection-bar';
+                    renderData(DEMO);
+                    setTimeout(function(){bar.style.display='none';},4000);
+                }
+            };
+            xhr.onerror=function(){
+                bar.textContent='ℹ️ Using demo data - open this file on your server for live data';
+                bar.className='connection-bar';
+                renderData(DEMO);
+                setTimeout(function(){bar.style.display='none';},5000);
+            };
+            xhr.send();
+        }catch(e){
+            bar.textContent='ℹ️ Using demo data';
+            bar.className='connection-bar';
+            renderData(DEMO);
+            setTimeout(function(){bar.style.display='none';},4000);
+        }
+    </script>
+</body>
+</html>
