@@ -1,137 +1,75 @@
 import frappe
 from frappe import _
-from frappe.utils import fmt_money, today, now_datetime
+from frappe.utils import today, fmt_money, add_days
 
 no_cache = 1
 
 def get_context(context):
-	"""Provide context for the Team Portal web page."""
-	context.title = "Team Portal"
-	context.show_sidebar = False
-	context.no_breadcrumbs = True
+    """Provide context for the Team Portal web page."""
+    context.title = "Team Portal"
+    context.show_sidebar = False
+    context.no_breadcrumbs = True
 
-	if frappe.session.user == "Guest":
-		context.message = "Please login to access the Team Portal."
-		return context
+    if frappe.session.user == "Guest":
+        context.message = "Please login to access the Team Portal."
+        return context
 
-	user = frappe.session.user
-	context.user_fullname = frappe.db.get_value("User", user, "full_name") or user
-	context.user_email = user
-	context.roles = frappe.get_roles(user)
-	context.is_team_head = "Team Head" in context.roles or "System Manager" in context.roles
+    user = frappe.session.user
+    context.user_fullname = frappe.db.get_value("User", user, "full_name") or user
+    context.user_email = user
+    context.user_initials = (context.user_fullname[:2]).upper()
+    context.roles = frappe.get_roles(user)
+    context.is_team_head = "Team Head" in context.roles or "System Manager" in context.roles
 
-	team_list = frappe.db.get_all("Team Member", filters={"member": user}, pluck="team", distinct=True)
-	context.user_teams = team_list
-	context.primary_team = team_list[0] if team_list else None
+    # Get user's teams
+    member_teams = frappe.get_all("Team Member",
+        filters={"user": user, "is_active": 1}, pluck="parent", distinct=True)
+    head_teams = frappe.get_all("Team",
+        filters={"team_head": user, "is_active": 1}, pluck="name")
+    all_teams = list(set(list(member_teams or []) + list(head_teams or [])))
 
-	stats = _get_dashboard_stats(user, context.is_team_head, context.primary_team)
-	context.stats = stats
+    context.teams_json = frappe.as_json(all_teams)
+    context.primary_team = all_teams[0] if all_teams else ""
 
-	context.recent_activity = _get_recent_activity(user, context.is_team_head, context.primary_team, limit=10)
+    # Get dashboard stats
+    stats = {}
+    if context.primary_team:
+        stats["pending_leaves"] = frappe.db.count("Leave Application",
+            {"team": context.primary_team, "status": "Pending Approval"})
+        stats["active_projects"] = frappe.db.count("Project",
+            {"team": context.primary_team, "status": ["in", ["Planning", "In Progress"]]})
+        stats["open_assignments"] = frappe.db.count("Work Assignment",
+            {"team": context.primary_team, "status": ["in", ["Open", "Assigned", "In Progress"]]})
+        stats["team_updates_today"] = frappe.db.count("Team Update",
+            {"team": context.primary_team, "date": today()})
+        stats["overdue_tasks"] = frappe.db.count("Work Assignment",
+            {"team": context.primary_team,
+             "status": ["not in", ["Completed", "Cancelled"]],
+             "due_date": ["<", today()]})
+        stats["team_members"] = frappe.db.count("Team Member",
+            {"parent": context.primary_team, "is_active": 1})
+    else:
+        stats = {"pending_leaves": 0, "active_projects": 0, "open_assignments": 0,
+                 "team_updates_today": 0, "overdue_tasks": 0, "team_members": 0}
 
-	context.leave_types = [
-		"Sick Leave", "Personal Leave", "Casual Leave", "Annual Leave",
-		"Maternity Leave", "Paternity Leave", "Bereavement Leave",
-		"Work From Home", "Compensatory Off", "Other"
-	]
+    stats["my_logs_today"] = frappe.db.count("Work Log",
+        {"member": user, "date": today()})
+    stats["my_pending"] = frappe.db.count("Work Assignment",
+        {"assigned_to": user, "status": ["in", ["Open", "Assigned", "In Progress"]]})
+    stats["upcoming_holidays"] = frappe.db.count("Holiday",
+        {"holiday_date": [">=", today()]})
 
-	context.update_types = [
-		"Late Arrival", "Early Departure", "Work From Home",
-		"Traffic Delay", "Personal Errand", "General Info",
-		"Health Update", "Other"
-	]
+    context.stats_json = frappe.as_json(stats)
 
-	return context
+    context.leave_types = [
+        "Sick Leave", "Personal Leave", "Casual Leave", "Annual Leave",
+        "Maternity Leave", "Paternity Leave", "Bereavement Leave",
+        "Work From Home", "Compensatory Off", "Other"
+    ]
+    context.update_types = [
+        "Late Arrival", "Early Departure", "Work From Home",
+        "Traffic Delay", "Personal Errand", "General Info",
+        "Health Update", "Other"
+    ]
 
-
-def _get_dashboard_stats(user, is_team_head, team):
-	stats = {}
-	base_filter = {}
-	if not is_team_head and team:
-		base_filter["team"] = team
-	user_filter = {}
-	if not is_team_head:
-		user_filter["member"] = user
-	today_str = today()
-
-	stats["pending_leaves"] = frappe.db.count("Leave Application", {
-		**base_filter, "status": "Pending Approval", "docstatus": 1
-	})
-	stats["approved_leaves_today"] = frappe.db.count("Leave Application", {
-		**base_filter, "status": "Approved", "from_date": ["<=", today_str], "to_date": [">=", today_str]
-	})
-	stats["active_projects"] = frappe.db.count("Project", {
-		**base_filter, "status": ["in", ["Planning", "In Progress"]]
-	})
-	stats["open_assignments"] = frappe.db.count("Work Assignment", {
-		**base_filter, "status": ["in", ["Open", "Assigned", "In Progress"]]
-	})
-	stats["completed_today"] = frappe.db.count("Work Assignment", {
-		**base_filter, "status": "Completed", "modified": [">=", today_str]
-	})
-	stats["my_logs_today"] = frappe.db.count("Work Log", {"member": user, "date": today_str})
-	stats["team_updates_today"] = frappe.db.count("Team Update", {**base_filter, "date": today_str})
-	stats["overdue_tasks"] = frappe.db.count("Work Assignment", {
-		**base_filter, "status": ["not in", ["Completed", "Cancelled"]], "due_date": ["<", today_str]
-	})
-	stats["my_pending"] = frappe.db.count("Work Assignment", {
-		"assigned_to": user, "status": ["in", ["Open", "Assigned", "In Progress"]]
-	})
-	if team:
-		stats["team_member_count"] = frappe.db.count("Team Member", {"team": team})
-	else:
-		stats["team_member_count"] = 0
-	stats["upcoming_holidays"] = frappe.db.count("Holiday", {"date": [">=", today_str]})
-	stats["team_name"] = frappe.db.get_value("Team", team, "team_name") if team else "Not Assigned"
-	stats["team_head"] = frappe.db.get_value("Team", team, "team_head") if team else None
-	return stats
-
-
-def _get_recent_activity(user, is_team_head, team, limit=10):
-	activities = []
-	base_filter = {}
-	if not is_team_head and team:
-		base_filter["team"] = team
-	user_filter = {}
-	if not is_team_head:
-		user_filter["member"] = user
-
-	logs = frappe.db.get_list("Work Log", filters={**base_filter, **user_filter},
-		fields=["name", "member", "task_description", "hours_spent", "creation"],
-		order_by="creation desc", limit=limit)
-	for log in logs:
-		name = frappe.db.get_value("User", log.member, "full_name") or log.member
-		activities.append({"type": "Work Log", "name": log.name,
-			"title": f"{name} logged {log.hours_spent or 0}h",
-			"subtitle": (log.task_description or "")[:60],
-			"time": log.creation, "icon": "work", "color": "blue"})
-
-	leaves = frappe.db.get_list("Leave Application", filters={**base_filter, **user_filter},
-		fields=["name", "member", "leave_type", "status", "from_date", "creation"],
-		order_by="creation desc", limit=limit)
-	for l in leaves:
-		name = frappe.db.get_value("User", l.member, "full_name") or l.member
-		activities.append({"type": "Leave", "name": l.name,
-			"title": f"{name} - {l.leave_type}", "subtitle": l.status,
-			"time": l.creation, "icon": "leave", "color": "orange"})
-
-	updates = frappe.db.get_list("Team Update", filters={**base_filter, **user_filter},
-		fields=["name", "member", "update_type", "description", "creation"],
-		order_by="creation desc", limit=limit)
-	for u in updates:
-		name = frappe.db.get_value("User", u.member, "full_name") or u.member
-		activities.append({"type": "Team Update", "name": u.name,
-			"title": f"{name} - {u.update_type}", "subtitle": (u.description or "")[:60],
-			"time": u.creation, "icon": "update", "color": "cyan"})
-
-	assignments = frappe.db.get_list("Work Assignment", filters={**base_filter},
-		fields=["name", "assigned_to", "title", "status", "creation"],
-		order_by="creation desc", limit=limit)
-	for a in assignments:
-		name = frappe.db.get_value("User", a.assigned_to, "full_name") or a.assigned_to
-		activities.append({"type": "Assignment", "name": a.name,
-			"title": f"{name} - {a.title[:40]}", "subtitle": a.status,
-			"time": a.creation, "icon": "assignment", "color": "purple"})
-
-	activities.sort(key=lambda x: x["time"], reverse=True)
-	return activities[:limit]
+    return context

@@ -4,357 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - {{ user_fullname }}</title>
-    <link rel="stylesheet" href="/assets/frappe/css/font-awesome.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --sidebar: #1e293b;
-            --sidebar-hover: #334155;
-            --sidebar-active: #2563eb;
-            --bg: #f1f5f9;
-            --card: #ffffff;
-            --border: #e2e8f0;
-            --text: #0f172a;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --primary: #2563eb;
-            --primary-light: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --info: #06b6d4;
-            --purple: #8b5cf6;
-            --pink: #ec4899;
-            --orange: #f97316;
-            --radius: 10px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar: #0f172a; --sidebar-hover: #1e293b; --sidebar-active: #2563eb;
+            --bg: #f1f5f9; --card: #ffffff; --border: #e2e8f0;
+            --text: #0f172a; --text-secondary: #64748b; --text-muted: #94a3b8;
+            --primary: #2563eb; --primary-light: #3b82f6; --primary-dark: #1d4ed8;
+            --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --info: #06b6d4;
+            --purple: #8b5cf6; --pink: #ec4899; --orange: #f97316;
+            --radius: 10px; --shadow: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08);
+            --transition: all 0.2s ease;
         }
         html, body { height: 100%; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.5;
             display: flex;
         }
         a { text-decoration: none; color: var(--primary); }
-        button { cursor: pointer; font-family: inherit; border: none; outline: none; }
-        input, select, textarea { font-family: inherit; outline: none; }
+        button { cursor: pointer; font-family: inherit; border: none; outline: none; font-size: 13px; }
+        input, select, textarea { font-family: inherit; outline: none; font-size: 13px; }
 
         /* SIDEBAR */
         .sidebar {
-            width: 240px;
-            min-height: 100vh;
-            background: var(--sidebar);
-            color: #cbd5e1;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
+            width: 230px; min-height: 100vh; background: var(--sidebar);
+            color: #94a3b8; display: flex; flex-direction: column;
+            position: fixed; left: 0; top: 0; z-index: 100;
             transition: var(--transition);
         }
         .sidebar-brand {
-            padding: 20px 20px 16px;
+            padding: 18px 18px 14px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: flex; align-items: center; gap: 10px;
         }
         .sidebar-brand .brand-icon {
-            width: 36px; height: 36px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
+            width: 34px; height: 34px; background: var(--primary);
+            border-radius: 9px; display: flex; align-items: center;
+            justify-content: center; color: white; font-size: 15px; font-weight: 700;
         }
-        .sidebar-brand .brand-text {
-            font-size: 15px;
-            font-weight: 700;
-            color: #f1f5f9;
-            line-height: 1.2;
-        }
-        .sidebar-brand .brand-sub {
-            font-size: 11px;
-            color: #64748b;
-            font-weight: 400;
-        }
-        .sidebar-nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+        .sidebar-brand .brand-text { font-size: 14px; font-weight: 700; color: #f1f5f9; line-height: 1.2; }
+        .sidebar-brand .brand-sub { font-size: 10px; color: #475569; }
+        .sidebar-nav { flex: 1; padding: 10px 8px; overflow-y: auto; }
         .sidebar-label {
-            font-size: 10px;
-            font-weight: 600;
-            color: #475569;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 16px 14px 6px;
+            font-size: 10px; font-weight: 600; color: #475569;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            padding: 14px 14px 6px; margin-top: 4px;
         }
         .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #94a3b8;
-            transition: var(--transition);
-            cursor: pointer;
-            margin-bottom: 1px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 14px; border-radius: 7px;
+            font-size: 13px; font-weight: 500; color: #64748b;
+            transition: var(--transition); cursor: pointer; margin-bottom: 1px;
         }
         .sidebar-item:hover { background: var(--sidebar-hover); color: #e2e8f0; }
         .sidebar-item.active { background: var(--sidebar-active); color: white; }
-        .sidebar-item .icon { font-size: 16px; width: 20px; text-align: center; }
+        .sidebar-item .icon { font-size: 15px; width: 20px; text-align: center; }
         .sidebar-item .badge {
-            margin-left: auto;
-            background: rgba(255,255,255,0.1);
-            padding: 1px 7px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 600;
+            margin-left: auto; background: rgba(255,255,255,0.08);
+            padding: 1px 7px; border-radius: 10px; font-size: 11px; font-weight: 600;
         }
-        .sidebar-item.active .badge { background: rgba(255,255,255,0.2); }
+        .sidebar-item.active .badge { background: rgba(255,255,255,0.15); }
         .sidebar-footer {
-            padding: 14px 14px 18px;
-            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 12px 16px; border-top: 1px solid rgba(255,255,255,0.06);
         }
         .sidebar-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
-            border-radius: 8px;
-            transition: var(--transition);
-            cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            padding: 7px 12px; border-radius: 7px;
+            transition: var(--transition); cursor: default;
         }
-        .sidebar-user:hover { background: var(--sidebar-hover); }
         .sidebar-user .avatar {
-            width: 32px; height: 32px;
-            border-radius: 8px;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 600;
+            width: 30px; height: 30px; border-radius: 7px;
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600;
         }
-        .sidebar-user .user-info { flex: 1; min-width: 0; }
-        .sidebar-user .user-name { font-size: 13px; font-weight: 600; color: #e2e8f0; }
-        .sidebar-user .user-role { font-size: 11px; color: #64748b; }
+        .sidebar-user .user-name { font-size: 12px; font-weight: 600; color: #e2e8f0; }
+        .sidebar-user .user-role { font-size: 10px; color: #475569; }
 
-        /* MAIN CONTENT */
-        .main { flex: 1; margin-left: 240px; min-height: 100vh; }
+        /* MAIN */
+        .main { flex: 1; margin-left: 230px; min-height: 100vh; }
         .topbar {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 0 32px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            background: var(--card); border-bottom: 1px solid var(--border);
+            padding: 0 28px; height: 56px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
         }
-        .topbar h1 { font-size: 18px; font-weight: 700; }
-        .topbar .actions { display: flex; align-items: center; gap: 12px; }
+        .topbar h1 { font-size: 17px; font-weight: 700; }
+        .topbar .actions { display: flex; gap: 8px; }
         .topbar .actions a {
-            font-size: 13px;
-            font-weight: 500;
-            padding: 6px 14px;
-            border-radius: 6px;
-            background: #f1f5f9;
-            color: var(--text);
+            font-size: 12px; font-weight: 500; padding: 5px 12px;
+            border-radius: 6px; background: #f1f5f9; color: var(--text);
             transition: var(--transition);
         }
         .topbar .actions a:hover { background: #e2e8f0; }
-        .content { padding: 28px 32px; }
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .content { padding: 24px 28px; }
+        .tab-content { display: none; animation: fadeIn 0.25s ease; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* CARDS */
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        .card:hover { box-shadow: var(--shadow-md); }
-        .card-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .card-header h3 { font-size: 14px; font-weight: 600; }
-        .card-body { padding: 20px; }
-        .card-footer {
-            padding: 12px 20px;
-            border-top: 1px solid var(--border);
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
         /* STATS GRID */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 14px;
-            margin-bottom: 24px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 22px; }
         .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 16px;
+            box-shadow: var(--shadow); transition: var(--transition);
+            position: relative; overflow: hidden;
         }
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-        }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .stat-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
         .stat-card.primary::before { background: var(--primary); }
         .stat-card.success::before { background: var(--success); }
         .stat-card.warning::before { background: var(--warning); }
         .stat-card.danger::before { background: var(--danger); }
         .stat-card.info::before { background: var(--info); }
         .stat-card.purple::before { background: var(--purple); }
-        .stat-card.pink::before { background: var(--pink); }
-        .stat-card .stat-icon { font-size: 20px; margin-bottom: 10px; }
-        .stat-card .stat-value { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 2px; letter-spacing: -0.5px; }
-        .stat-card .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
-        .stat-card.primary .stat-value { color: var(--primary); }
+        .stat-card .stat-icon { font-size: 18px; margin-bottom: 8px; }
+        .stat-card .stat-value { font-size: 26px; font-weight: 800; line-height: 1; margin-bottom: 2px; }
+        .stat-card .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+        .stat-card.primary .stat-value, .stat-card.info .stat-value { color: var(--primary); }
         .stat-card.success .stat-value { color: var(--success); }
         .stat-card.warning .stat-value { color: var(--warning); }
         .stat-card.danger .stat-value { color: var(--danger); }
-        .stat-card.info .stat-value { color: var(--info); }
         .stat-card.purple .stat-value { color: var(--purple); }
         .stat-card.pink .stat-value { color: var(--pink); }
 
         /* SECTION */
-        .section { margin-bottom: 28px; }
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-        .section-header h2 { font-size: 16px; font-weight: 700; }
-        .section-header .section-action { font-size: 13px; font-weight: 500; color: var(--primary); cursor: pointer; }
+        .section { margin-bottom: 24px; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .section-header h2 { font-size: 15px; font-weight: 700; }
+        .section-header .section-action { font-size: 12px; font-weight: 500; color: var(--primary); cursor: pointer; }
 
         /* FEATURE CARDS */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 14px;
-        }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
         .feature-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 18px;
+            box-shadow: var(--shadow); transition: var(--transition); cursor: pointer;
         }
-        .feature-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--primary-light); }
-        .feature-card .card-icon { font-size: 28px; margin-bottom: 10px; }
-        .feature-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-        .feature-card p { font-size: 12px; color: var(--text-muted); }
+        .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); border-color: var(--primary-light); }
+        .feature-card .card-icon { font-size: 24px; margin-bottom: 8px; }
+        .feature-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+        .feature-card p { font-size: 11px; color: var(--text-muted); }
 
         /* ACTIVITY */
-        .activity-list { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-        .activity-item {
-            display: flex; align-items: flex-start;
-            padding: 13px 18px;
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-        }
+        .activity-list { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+        .activity-item { display: flex; align-items: flex-start; padding: 12px 16px; border-bottom: 1px solid var(--border); transition: var(--transition); }
         .activity-item:last-child { border-bottom: none; }
         .activity-item:hover { background: #f8fafc; }
-        .activity-icon {
-            width: 34px; height: 34px; border-radius: 9px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; margin-right: 12px; font-size: 15px;
-        }
+        .activity-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 10px; font-size: 14px; }
         .activity-content { flex: 1; min-width: 0; }
-        .activity-title { font-size: 13px; font-weight: 600; margin-bottom: 1px; }
-        .activity-subtitle { font-size: 12px; color: var(--text-muted); }
-        .activity-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; margin-left: 12px; }
+        .activity-title { font-size: 12px; font-weight: 600; margin-bottom: 1px; }
+        .activity-subtitle { font-size: 11px; color: var(--text-muted); }
+        .activity-time { font-size: 10px; color: var(--text-muted); white-space: nowrap; margin-left: 10px; }
 
         /* FORM */
-        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
-        .form-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; }
+        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); margin-bottom: 18px; }
+        .form-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
         .form-control {
-            width: 100%; padding: 9px 13px;
-            border: 1.5px solid var(--border); border-radius: 8px;
+            width: 100%; padding: 8px 12px;
+            border: 1.5px solid var(--border); border-radius: 7px;
             font-size: 13px; color: var(--text); background: var(--card);
             transition: var(--transition);
         }
         .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        select.form-control { appearance: auto; }
-        textarea.form-control { resize: vertical; min-height: 80px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        textarea.form-control { resize: vertical; min-height: 70px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .btn {
-            padding: 9px 22px; border-radius: 8px;
+            padding: 8px 20px; border-radius: 7px;
             font-size: 13px; font-weight: 600;
             transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            display: inline-flex; align-items: center; gap: 6px;
         }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-sm { padding: 6px 14px; font-size: 12px; }
+        .btn-sm { padding: 5px 12px; font-size: 11px; }
 
         /* ALERT */
-        .alert {
-            padding: 12px 16px; border-radius: 8px;
-            font-size: 13px; margin-bottom: 16px; display: none;
-        }
-        .alert.success { background: #d1fae5; color: #065f46; display: flex; align-items: center; gap: 8px; }
-        .alert.error { background: #fee2e2; color: #991b1b; display: flex; align-items: center; gap: 8px; }
-        .alert.info { background: #dbeafe; color: #1e40af; display: flex; align-items: center; gap: 8px; }
+        .toast-container { position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+        .toast { padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); animation: slideIn 0.2s ease; display: flex; align-items: center; gap: 8px; max-width: 360px; }
+        .toast.success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .toast.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .toast.info { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
         /* TABLE */
         .table-wrapper { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
         table { width: 100%; border-collapse: collapse; }
-        th {
-            text-align: left; padding: 11px 16px;
-            font-size: 11px; font-weight: 600; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.5px;
-            background: #f8fafc; border-bottom: 1px solid var(--border);
-        }
-        td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        th { text-align: left; padding: 10px 14px; font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; background: #f8fafc; border-bottom: 1px solid var(--border); }
+        td { padding: 10px 14px; font-size: 12px; border-bottom: 1px solid var(--border); }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #f8fafc; }
 
         /* BADGE */
-        .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
         .badge-success { background: #d1fae5; color: #065f46; }
         .badge-warning { background: #fef3c7; color: #92400e; }
         .badge-danger { background: #fee2e2; color: #991b1b; }
@@ -362,59 +212,30 @@
         .badge-purple { background: #ede9fe; color: #5b21b6; }
         .badge-gray { background: #f1f5f9; color: #475569; }
 
-        /* MODAL */
-        .modal-overlay {
-            display: none; position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15,23,42,0.5); z-index: 200;
-            align-items: center; justify-content: center;
-            backdrop-filter: blur(2px);
-        }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--card); border-radius: 14px;
-            padding: 28px; width: 90%; max-width: 480px;
-            max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            animation: modalIn 0.2s ease;
-        }
-        @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        .modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
-        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-
         /* LOADING */
-        .loading { text-align: center; padding: 40px; color: var(--text-muted); }
-        .loading .spinner {
-            width: 30px; height: 30px;
-            border: 3px solid #e2e8f0;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto 10px;
-        }
+        .loading { text-align: center; padding: 30px; color: var(--text-muted); }
+        .spinner { width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 8px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* EMPTY STATE */
-        .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
-        .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
-        .empty-state h3 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-        .empty-state p { font-size: 13px; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+        .empty-state .empty-icon { font-size: 40px; margin-bottom: 8px; }
+        .empty-state h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+        .empty-state p { font-size: 12px; }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar { width: 60px; }
-            .sidebar .brand-text, .sidebar .brand-sub,
-            .sidebar .sidebar-label, .sidebar .sidebar-item span,
-            .sidebar .sidebar-user .user-info { display: none; }
-            .sidebar-brand { padding: 16px 12px; justify-content: center; }
-            .sidebar-nav { padding: 8px 6px; }
-            .sidebar-item { padding: 10px; justify-content: center; }
+            .sidebar { width: 56px; }
+            .sidebar .brand-text, .sidebar .brand-sub, .sidebar .sidebar-label,
+            .sidebar .sidebar-item span, .sidebar .sidebar-user .user-name,
+            .sidebar .sidebar-user .user-role { display: none; }
+            .sidebar-brand { padding: 14px 10px; justify-content: center; }
+            .sidebar-item { padding: 9px; justify-content: center; }
             .sidebar-item .badge { display: none; }
-            .sidebar-footer { padding: 10px; }
-            .sidebar-user { padding: 8px; justify-content: center; }
-            .main { margin-left: 60px; }
-            .content { padding: 16px; }
-            .topbar { padding: 0 16px; }
+            .sidebar-footer { padding: 8px; }
+            .sidebar-user { padding: 6px; justify-content: center; }
+            .main { margin-left: 56px; }
+            .content { padding: 14px; }
+            .topbar { padding: 0 14px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .card-grid { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
@@ -422,6 +243,8 @@
     </style>
 </head>
 <body>
+    <div class="toast-container" id="toast-container"></div>
+
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
@@ -434,33 +257,36 @@
         <nav class="sidebar-nav">
             <div class="sidebar-label">Main</div>
             <div class="sidebar-item active" data-section="dashboard" onclick="switchTab('dashboard')">
-                <span class="icon">📊</span><span>Dashboard</span>
+                <span class="icon">&#x1F4CA;</span><span>Dashboard</span>
             </div>
             <div class="sidebar-item" data-section="leave" onclick="switchTab('leave')">
-                <span class="icon">📋</span><span>Leave</span>
-                <span class="badge" id="leave-badge">{{ stats.pending_leaves }}</span>
+                <span class="icon">&#x1F4CB;</span><span>Leave</span>
+                <span class="badge" id="badge-leaves">0</span>
             </div>
             <div class="sidebar-item" data-section="work" onclick="switchTab('work')">
-                <span class="icon">⏱️</span><span>Work Log</span>
+                <span class="icon">&#x23F1;&#xFE0F;</span><span>Work Log</span>
             </div>
             <div class="sidebar-item" data-section="updates" onclick="switchTab('updates')">
-                <span class="icon">💬</span><span>Updates</span>
-                <span class="badge" id="update-badge">{{ stats.team_updates_today }}</span>
+                <span class="icon">&#x1F4AC;</span><span>Updates</span>
             </div>
-            <div class="sidebar-label">Projects</div>
+            <div class="sidebar-label">Data</div>
             <div class="sidebar-item" data-section="projects" onclick="switchTab('projects')">
-                <span class="icon">🎯</span><span>Projects</span>
-                <span class="badge" id="project-badge">{{ stats.active_projects }}</span>
+                <span class="icon">&#x1F3AF;</span><span>Projects</span>
+                <span class="badge" id="badge-projects">0</span>
             </div>
             <div class="sidebar-item" data-section="team" onclick="switchTab('team')">
-                <span class="icon">👥</span><span>Team</span>
-                <span class="badge" id="team-badge">{{ stats.team_member_count }}</span>
+                <span class="icon">&#x1F465;</span><span>Team</span>
+                <span class="badge" id="badge-team">0</span>
+            </div>
+            <div class="sidebar-label">Reports</div>
+            <div class="sidebar-item" data-section="assignments" onclick="switchTab('assignments')">
+                <span class="icon">&#x1F3AF;</span><span>Assignments</span>
             </div>
         </nav>
         <div class="sidebar-footer">
-            <div class="sidebar-user" onclick="window.open('/app/team-dashboard','_blank')">
-                <div class="avatar">{{ user_fullname[:2] }}</div>
-                <div class="user-info">
+            <div class="sidebar-user">
+                <div class="avatar">{{ user_initials or 'U' }}</div>
+                <div>
                     <div class="user-name">{{ user_fullname }}</div>
                     <div class="user-role">{% if is_team_head %}Team Head{% else %}Member{% endif %}</div>
                 </div>
@@ -473,174 +299,104 @@
         <header class="topbar">
             <h1 id="page-title">Dashboard</h1>
             <div class="actions">
-                <a href="/app/team-dashboard" target="_blank">⚙️ Desk Dashboard</a>
-                <a href="/app" target="_blank">🏠 ERPNext</a>
+                <a href="/app" target="_blank">ERPNext</a>
+                <a href="/app/team-dashboard" target="_blank">Desk</a>
             </div>
         </header>
-
         <div class="content">
-            <div id="global-alert" class="alert"></div>
 
             <!-- ===== DASHBOARD ===== -->
             <div id="tab-dashboard" class="tab-content active">
-                <div class="section" style="margin-bottom:8px;">
-                    <p style="color:var(--text-muted);font-size:14px;">Your team management overview at a glance</p>
-                    {% if primary_team %}
-                    <span style="display:inline-block;padding:3px 12px;background:#eff6ff;color:var(--primary);border-radius:20px;font-size:12px;font-weight:600;margin-top:6px;">🏢 {{ stats.team_name }}</span>
-                    {% endif %}
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card primary">
-                        <div class="stat-icon">📋</div>
-                        <div class="stat-value">{{ stats.pending_leaves }}</div>
-                        <div class="stat-label">Pending Leaves</div>
-                    </div>
-                    <div class="stat-card success">
-                        <div class="stat-icon">📊</div>
-                        <div class="stat-value">{{ stats.active_projects }}</div>
-                        <div class="stat-label">Active Projects</div>
-                    </div>
-                    <div class="stat-card warning">
-                        <div class="stat-icon">🎯</div>
-                        <div class="stat-value">{{ stats.open_assignments }}</div>
-                        <div class="stat-label">Open Tasks</div>
-                    </div>
-                    <div class="stat-card info">
-                        <div class="stat-icon">⏱️</div>
-                        <div class="stat-value">{{ stats.my_logs_today }}</div>
-                        <div class="stat-label">My Logs Today</div>
-                    </div>
-                    <div class="stat-card purple">
-                        <div class="stat-icon">💬</div>
-                        <div class="stat-value">{{ stats.team_updates_today }}</div>
-                        <div class="stat-label">Updates Today</div>
-                    </div>
-                    <div class="stat-card pink">
-                        <div class="stat-icon">📅</div>
-                        <div class="stat-value">{{ stats.upcoming_holidays }}</div>
-                        <div class="stat-label">Upcoming Holidays</div>
-                    </div>
-                    <div class="stat-card danger">
-                        <div class="stat-icon">⚠️</div>
-                        <div class="stat-value">{{ stats.overdue_tasks }}</div>
-                        <div class="stat-label">Overdue Tasks</div>
-                    </div>
-                    <div class="stat-card success">
-                        <div class="stat-icon">✅</div>
-                        <div class="stat-value">{{ stats.my_pending }}</div>
-                        <div class="stat-label">My Pending</div>
-                    </div>
+                <div class="stats-grid" id="stats-container">
+                    <div class="stat-card primary"><div class="stat-icon">&#x1F4CB;</div><div class="stat-value" id="stat-pending-leaves">0</div><div class="stat-label">Pending Leaves</div></div>
+                    <div class="stat-card success"><div class="stat-icon">&#x1F4CA;</div><div class="stat-value" id="stat-active-projects">0</div><div class="stat-label">Active Projects</div></div>
+                    <div class="stat-card warning"><div class="stat-icon">&#x1F3AF;</div><div class="stat-value" id="stat-open-tasks">0</div><div class="stat-label">Open Tasks</div></div>
+                    <div class="stat-card info"><div class="stat-icon">&#x23F1;&#xFE0F;</div><div class="stat-value" id="stat-logs-today">0</div><div class="stat-label">My Logs Today</div></div>
+                    <div class="stat-card purple"><div class="stat-icon">&#x1F4AC;</div><div class="stat-value" id="stat-updates">0</div><div class="stat-label">Updates Today</div></div>
+                    <div class="stat-card pink"><div class="stat-icon">&#x1F4C5;</div><div class="stat-value" id="stat-holidays">0</div><div class="stat-label">Upcoming Holidays</div></div>
+                    <div class="stat-card danger"><div class="stat-icon">&#x26A0;&#xFE0F;</div><div class="stat-value" id="stat-overdue">0</div><div class="stat-label">Overdue Tasks</div></div>
+                    <div class="stat-card success"><div class="stat-icon">&#x2705;</div><div class="stat-value" id="stat-my-pending">0</div><div class="stat-label">My Pending</div></div>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>⚡ Quick Actions</h2></div>
+                    <div class="section-header"><h2>Quick Actions</h2></div>
                     <div class="card-grid">
-                        <div class="feature-card" onclick="switchTab('leave')">
-                            <div class="card-icon">📋</div><h3>Apply Leave</h3>
-                            <p>Submit a new leave application</p>
-                        </div>
-                        <div class="feature-card" onclick="switchTab('work')">
-                            <div class="card-icon">📝</div><h3>Log Work</h3>
-                            <p>Record your daily work hours</p>
-                        </div>
-                        <div class="feature-card" onclick="switchTab('updates')">
-                            <div class="card-icon">📢</div><h3>Post Update</h3>
-                            <p>Share with your team</p>
-                        </div>
-                        <div class="feature-card" onclick="switchTab('projects')">
-                            <div class="card-icon">📊</div><h3>View Projects</h3>
-                            <p>Browse all projects</p>
-                        </div>
-                        <div class="feature-card" onclick="switchTab('team')">
-                            <div class="card-icon">👥</div><h3>Team Directory</h3>
-                            <p>View team members</p>
-                        </div>
-                        <div class="feature-card" onclick="window.open('/app/team-dashboard','_blank')">
-                            <div class="card-icon">🚀</div><h3>Full Dashboard</h3>
-                            <p>Open desk dashboard</p>
-                        </div>
+                        <div class="feature-card" onclick="switchTab('leave')"><div class="card-icon">&#x1F4CB;</div><h3>Apply Leave</h3><p>Submit a new leave request</p></div>
+                        <div class="feature-card" onclick="switchTab('work')"><div class="card-icon">&#x1F4DD;</div><h3>Log Work</h3><p>Record today's work hours</p></div>
+                        <div class="feature-card" onclick="switchTab('updates')"><div class="card-icon">&#x1F4E2;</div><h3>Post Update</h3><p>Share with your team</p></div>
+                        <div class="feature-card" onclick="switchTab('projects')"><div class="card-icon">&#x1F4CA;</div><h3>View Projects</h3><p>Browse all team projects</p></div>
+                        <div class="feature-card" onclick="switchTab('team')"><div class="card-icon">&#x1F465;</div><h3>Team Directory</h3><p>View team members</p></div>
+                        <div class="feature-card" onclick="switchTab('assignments')"><div class="card-icon">&#x1F3AF;</div><h3>Assignments</h3><p>View work assignments</p></div>
                     </div>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>🕐 Recent Activity</h2></div>
-                    <div class="activity-list">
-                        {% if recent_activity %}
-                        {% for item in recent_activity %}
-                        <div class="activity-item">
-                            <div class="activity-icon" style="background:{% if item.color == 'blue' %}#dbeafe;color:#2563eb{% elif item.color == 'orange' %}#fef3c7;color:#f59e0b{% elif item.color == 'cyan' %}#cffafe;color:#06b6d4{% elif item.color == 'purple' %}#ede9fe;color:#8b5cf6{% else %}#f1f5f9;color:#64748b{% endif %}">
-                                {% if item.icon == 'work' %}📝{% elif item.icon == 'leave' %}📋{% elif item.icon == 'update' %}💬{% elif item.icon == 'assignment' %}🎯{% else %}📌{% endif %}
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">{{ item.title }}</div>
-                                <div class="activity-subtitle">{{ item.subtitle }}</div>
-                            </div>
-                            <div class="activity-time">{{ item.time }}</div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                        <div class="empty-state">
-                            <div class="empty-icon">📭</div>
-                            <h3>No Recent Activity</h3>
-                            <p>Start by logging work or applying for leave!</p>
-                        </div>
-                        {% endif %}
-                    </div>
+                    <div class="section-header"><h2>Recent Activity</h2></div>
+                    <div class="activity-list" id="activity-feed"><div class="loading"><div class="spinner"></div>Loading activity...</div></div>
                 </div>
             </div>
 
             <!-- ===== LEAVE ===== -->
             <div id="tab-leave" class="tab-content">
-                <div class="section"><p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">Apply for leave and track your requests</p></div>
-                <div class="stats-grid">
-                    <div class="stat-card warning"><div class="stat-icon">⏳</div><div class="stat-value">{{ stats.pending_leaves }}</div><div class="stat-label">Pending</div></div>
-                    <div class="stat-card success"><div class="stat-icon">✅</div><div class="stat-value">{{ stats.approved_leaves_today }}</div><div class="stat-label">Approved Today</div></div>
-                    <div class="stat-card info"><div class="stat-icon">📅</div><div class="stat-value">{{ stats.upcoming_holidays }}</div><div class="stat-label">Upcoming Holidays</div></div>
-                </div>
                 <div class="form-card">
-                    <h3>✏️ Apply for Leave</h3>
-                    <form id="leave-form" onsubmit="submitLeave(event)">
+                    <h3>Apply for Leave</h3>
+                    <form id="leave-form">
                         <div class="form-row">
-                            <div class="form-group"><label>Leave Type</label><select class="form-control" name="leave_type" required><option value="">Select...</option>{% for lt in leave_types %}<option value="{{ lt }}">{{ lt }}</option>{% endfor %}</select></div>
-                            <div class="form-group"><label>Team</label><select class="form-control" name="team" required><option value="">Select...</option>{% for t in user_teams %}<option value="{{ t }}">{{ t }}</option>{% endfor %}</select></div>
+                            <div class="form-group">
+                                <label>Leave Type</label>
+                                <select class="form-control" name="leave_type" required>
+                                    <option value="">Select...</option>
+                                    {% for lt in leave_types %}
+                                    <option value="{{ lt }}">{{ lt }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Team</label>
+                                <select class="form-control" name="team" id="leave-team-select" required>
+                                    <option value="">Select team...</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group"><label>From Date</label><input class="form-control" type="date" name="from_date" required></div>
                             <div class="form-group"><label>To Date</label><input class="form-control" type="date" name="to_date" required></div>
                         </div>
                         <div class="form-group"><label>Reason</label><textarea class="form-control" name="reason" required placeholder="Describe the reason for your leave..."></textarea></div>
-                        <button type="submit" class="btn btn-primary">📋 Submit Leave Application</button>
+                        <button type="submit" class="btn btn-primary" id="leave-submit-btn">Submit Leave Application</button>
                     </form>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>📋 My Leave Applications</h2></div>
+                    <div class="section-header"><h2>My Leave Applications</h2></div>
                     <div class="table-wrapper">
-                        <table>
-                            <thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead>
-                            <tbody id="leave-table-body"><tr><td colspan="5" class="loading"><div class="spinner"></div>Loading leaves...</td></tr></tbody>
+                        <table><thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead>
+                            <tbody id="leave-table"><tr><td colspan="5" class="loading"><div class="spinner"></div>Loading...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== WORK ===== -->
+            <!-- ===== WORK LOG ===== -->
             <div id="tab-work" class="tab-content">
-                <div class="section"><p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">Record your daily work and track progress</p></div>
                 <div class="form-card">
-                    <h3>✏️ Log Today's Work</h3>
-                    <form id="work-form" onsubmit="submitWork(event)">
+                    <h3>Log Today's Work</h3>
+                    <form id="work-form">
                         <div class="form-row">
-                            <div class="form-group"><label>Team</label><select class="form-control" name="team" required>{% for t in user_teams %}<option value="{{ t }}">{{ t }}</option>{% endfor %}</select></div>
+                            <div class="form-group">
+                                <label>Team</label>
+                                <select class="form-control" name="team" id="work-team-select" required>
+                                    <option value="">Select team...</option>
+                                </select>
+                            </div>
                             <div class="form-group"><label>Hours Spent</label><input class="form-control" type="number" name="hours_spent" step="0.5" min="0.5" max="24" required></div>
                         </div>
-                        <div class="form-group"><label>Task Description</label><textarea class="form-control" name="task_description" required placeholder="Describe what you worked on today..."></textarea></div>
-                        <button type="submit" class="btn btn-primary">⏱️ Log Work</button>
+                        <div class="form-group"><label>Task Description</label><textarea class="form-control" name="task_description" required placeholder="Describe what you worked on..."></textarea></div>
+                        <button type="submit" class="btn btn-primary" id="work-submit-btn">Log Work</button>
                     </form>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>📝 Recent Work Logs</h2></div>
+                    <div class="section-header"><h2>Recent Work Logs</h2></div>
                     <div class="table-wrapper">
-                        <table>
-                            <thead><tr><th>Date</th><th>Member</th><th>Task</th><th>Hours</th></tr></thead>
-                            <tbody id="work-table-body"><tr><td colspan="4" class="loading"><div class="spinner"></div>Loading...</td></tr></tbody>
+                        <table><thead><tr><th>Date</th><th>Member</th><th>Task</th><th>Hours</th></tr></thead>
+                            <tbody id="work-table"><tr><td colspan="4" class="loading"><div class="spinner"></div>Loading...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
@@ -648,38 +404,47 @@
 
             <!-- ===== UPDATES ===== -->
             <div id="tab-updates" class="tab-content">
-                <div class="section"><p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">Share and view team communications</p></div>
                 <div class="form-card">
-                    <h3>✏️ Share an Update</h3>
-                    <form id="update-form" onsubmit="submitUpdate(event)">
+                    <h3>Share an Update</h3>
+                    <form id="update-form">
                         <div class="form-row">
-                            <div class="form-group"><label>Update Type</label><select class="form-control" name="update_type" required>{% for ut in update_types %}<option value="{{ ut }}">{{ ut }}</option>{% endfor %}</select></div>
-                            <div class="form-group"><label>Team</label><select class="form-control" name="team" required>{% for t in user_teams %}<option value="{{ t }}">{{ t }}</option>{% endfor %}</select></div>
+                            <div class="form-group">
+                                <label>Update Type</label>
+                                <select class="form-control" name="update_type" required>
+                                    {% for ut in update_types %}
+                                    <option value="{{ ut }}">{{ ut }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Team</label>
+                                <select class="form-control" name="team" id="update-team-select" required>
+                                    <option value="">Select team...</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group"><label>Description</label><textarea class="form-control" name="description" required placeholder="Describe your update..." maxlength="500"></textarea></div>
-                        <button type="submit" class="btn btn-primary">📢 Post Update</button>
+                        <button type="submit" class="btn btn-primary" id="update-submit-btn">Post Update</button>
                     </form>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>💬 Recent Updates</h2></div>
+                    <div class="section-header"><h2>Recent Updates</h2></div>
                     <div id="updates-feed"><div class="loading"><div class="spinner"></div>Loading updates...</div></div>
                 </div>
             </div>
 
             <!-- ===== PROJECTS ===== -->
             <div id="tab-projects" class="tab-content">
-                <div class="section"><p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">Track project progress and milestones</p></div>
                 <div class="stats-grid">
-                    <div class="stat-card primary"><div class="stat-icon">📊</div><div class="stat-value">{{ stats.active_projects }}</div><div class="stat-label">Active Projects</div></div>
-                    <div class="stat-card success"><div class="stat-icon">✅</div><div class="stat-value">{{ stats.completed_today }}</div><div class="stat-label">Completed Today</div></div>
-                    <div class="stat-card warning"><div class="stat-icon">⏳</div><div class="stat-value">{{ stats.my_pending }}</div><div class="stat-label">My Pending Tasks</div></div>
+                    <div class="stat-card primary"><div class="stat-icon">&#x1F4CA;</div><div class="stat-value" id="proj-active">0</div><div class="stat-label">Active Projects</div></div>
+                    <div class="stat-card success"><div class="stat-icon">&#x2705;</div><div class="stat-value" id="proj-completed">0</div><div class="stat-label">Completed</div></div>
+                    <div class="stat-card warning"><div class="stat-icon">&#x1F3AF;</div><div class="stat-value" id="proj-pending">0</div><div class="stat-label">My Pending Tasks</div></div>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>📋 Project List</h2></div>
+                    <div class="section-header"><h2>Project List</h2></div>
                     <div class="table-wrapper">
-                        <table>
-                            <thead><tr><th>Project</th><th>Status</th><th>Start</th><th>End</th><th>Priority</th><th>Team</th></tr></thead>
-                            <tbody id="project-table-body"><tr><td colspan="6" class="loading"><div class="spinner"></div>Loading projects...</td></tr></tbody>
+                        <table><thead><tr><th>Project</th><th>Status</th><th>Start</th><th>End</th><th>Priority</th><th>Team</th></tr></thead>
+                            <tbody id="project-table"><tr><td colspan="6" class="loading"><div class="spinner"></div>Loading...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
@@ -687,200 +452,412 @@
 
             <!-- ===== TEAM ===== -->
             <div id="tab-team" class="tab-content">
-                <div class="section"><p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">View your team members and their information</p></div>
                 <div class="stats-grid">
-                    <div class="stat-card info"><div class="stat-icon">👥</div><div class="stat-value">{{ stats.team_member_count }}</div><div class="stat-label">Team Members</div></div>
+                    <div class="stat-card info"><div class="stat-icon">&#x1F465;</div><div class="stat-value" id="team-count">0</div><div class="stat-label">Team Members</div></div>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2>👤 Team Members</h2></div>
-                    <div id="team-members-list"><div class="loading"><div class="spinner"></div>Loading team members...</div></div>
+                    <div class="section-header"><h2>Team Members</h2></div>
+                    <div id="team-members"><div class="loading"><div class="spinner"></div>Loading...</div></div>
                 </div>
             </div>
+
+            <!-- ===== ASSIGNMENTS ===== -->
+            <div id="tab-assignments" class="tab-content">
+                <div class="section">
+                    <div class="section-header"><h2>Work Assignments</h2></div>
+                    <div class="table-wrapper">
+                        <table><thead><tr><th>Title</th><th>Assigned To</th><th>Status</th><th>Priority</th><th>Due Date</th></tr></thead>
+                            <tbody id="assignment-table"><tr><td colspan="5" class="loading"><div class="spinner"></div>Loading...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- MODAL -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-            <h2 id="modal-title">Details</h2>
-            <div id="modal-content"></div>
-            <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Close</button></div>
-        </div>
-    </div>
-
-    <script src="/assets/frappe/js/lib/jquery/jquery.min.js"></script>
     <script>
-        function switchTab(tab){
-            $('.tab-content').removeClass('active');
-            $('#tab-'+tab).addClass('active');
-            $('.sidebar-item').removeClass('active');
-            $('.sidebar-item[data-section="'+tab+'"]').addClass('active');
-            var titles={dashboard:'Dashboard',leave:'Leave Management',work:'Work Log',updates:'Team Updates',projects:'Projects',team:'Team Directory'};
-            $('#page-title').text(titles[tab]||'Dashboard');
-        }
-        function showAlert(msg,type){
-            var el=$('#global-alert');
-            el.html('<span>'+(type==='success'?'✅':type==='error'?'❌':'ℹ️')+'</span><span>'+msg+'</span>')
-              .removeClass('success error info').addClass(type).show();
-            setTimeout(function(){el.fadeOut(300);},5000);
-        }
-        function openModal(title,content){
-            $('#modal-title').text(title);
-            $('#modal-content').html(content);
-            $('#modal-overlay').addClass('active');
-        }
-        function closeModal(){$('#modal-overlay').removeClass('active');}
-        $('#modal-overlay').click(function(e){if(e.target===this)closeModal();});
+        // ─── Configuration ─────────────────────────────────────────────────
+        var API = '/api/method/team_management.team_management.api.';
+        var TEAMS = {{ teams_json or '[]' }};
+        var INITIAL_STATS = {{ stats_json or '{}' }};
+        var USER = '{{ user_email }}';
+        var IS_HEAD = {% if is_team_head %}true{% else %}false{% endif %};
 
-        // LEAVE
-        function submitLeave(e){
-            e.preventDefault();
-            var data=$(e.target).serializeArray();
-            data.push({name:'member',value:'{{ user_email }}'});
-            $('.btn-primary',e.target).prop('disabled',true).text('⏳ Submitting...');
-            $.post('/api/method/team_management.team_management.api.create_leave',data)
-                .done(function(r){
-                    if(r.message.success){
-                        showAlert('Leave application submitted successfully!','success');
-                        e.target.reset();loadLeaves();
-                    }else{showAlert(r.message.error,'error');}
-                }).fail(function(){showAlert('Error submitting leave','error');})
-                .always(function(){$('.btn-primary',e.target).prop('disabled',false).html('📋 Submit Leave Application');});
+        // ─── Toast Notifications ───────────────────────────────────────────
+        function showToast(msg, type) {
+            var c = document.getElementById('toast-container');
+            var t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.innerHTML = '<span>' + (type === 'success' ? '&#x2705;' : type === 'error' ? '&#x274C;' : '&#x2139;&#xFE0F;') + '</span><span>' + msg + '</span>';
+            c.appendChild(t);
+            setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(function() { t.remove(); }, 300); }, 4000);
         }
-        function loadLeaves(){
-            $.get('/api/method/team_management.team_management.api.get_my_leaves').done(function(r){
-                if(r.message){
-                    var h='';
-                    r.message.forEach(function(l){
-                        var b=l.status==='Approved'?'badge-success':l.status==='Rejected'?'badge-danger':'badge-warning';
-                        h+='<tr><td>'+l.leave_type+'</td><td>'+l.from_date+'</td><td>'+l.to_date+'</td><td>'+(l.total_days||1)+'</td><td><span class="badge '+b+'">'+l.status+'</span></td></tr>';
-                    });
-                    $('#leave-table-body').html(h);
+
+        // ─── API Helper ────────────────────────────────────────────────────
+        function apiCall(method, args) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                var params = [];
+                for (var k in args) {
+                    if (args.hasOwnProperty(k)) params.push(encodeURIComponent(k) + '=' + encodeURIComponent(args[k]));
                 }
+                var url = API + method;
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.withCredentials = true;
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try { resolve(JSON.parse(xhr.responseText).message); }
+                        catch(e) { reject('Invalid response'); }
+                    } else { reject('HTTP ' + xhr.status); }
+                };
+                xhr.onerror = function() { reject('Network error'); };
+                xhr.send(params.join('&'));
             });
         }
 
-        // WORK
-        function submitWork(e){
-            e.preventDefault();
-            var data=$(e.target).serializeArray();
-            data.push({name:'member',value:'{{ user_email }}'});
-            $('.btn-primary',e.target).prop('disabled',true).text('⏳ Saving...');
-            $.post('/api/method/team_management.team_management.api.create_work_log',data)
-                .done(function(r){
-                    if(r.message.success){
-                        showAlert('Work logged successfully!','success');
-                        e.target.reset();loadWorkLogs();
-                    }else{showAlert(r.message.error,'error');}
-                }).fail(function(){showAlert('Error logging work','error');})
-                .always(function(){$('.btn-primary',e.target).prop('disabled',false).html('⏱️ Log Work');});
-        }
-        function loadWorkLogs(){
-            $.get('/api/method/team_management.team_management.api.get_recent_work_logs').done(function(r){
-                if(r.message){
-                    var h='';
-                    r.message.forEach(function(w){
-                        h+='<tr><td>'+w.date+'</td><td>'+w.member_name+'</td><td>'+(w.task_description||'').substring(0,50)+'</td><td><strong>'+(w.hours_spent||0)+'h</strong></td></tr>';
-                    });
-                    $('#work-table-body').html(h);
+        function apiGet(method, args) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                var params = [];
+                for (var k in args) {
+                    if (args.hasOwnProperty(k)) params.push(encodeURIComponent(k) + '=' + encodeURIComponent(args[k]));
                 }
+                var url = API + method + (params.length ? '?' + params.join('&') : '');
+                xhr.open('GET', url, true);
+                xhr.withCredentials = true;
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try { resolve(JSON.parse(xhr.responseText).message); }
+                        catch(e) { reject('Invalid response'); }
+                    } else { reject('HTTP ' + xhr.status); }
+                };
+                xhr.onerror = function() { reject('Network error'); };
+                xhr.send();
             });
         }
 
-        // UPDATES
-        function submitUpdate(e){
-            e.preventDefault();
-            var data=$(e.target).serializeArray();
-            data.push({name:'member',value:'{{ user_email }}'});
-            $('.btn-primary',e.target).prop('disabled',true).text('⏳ Posting...');
-            $.post('/api/method/team_management.team_management.api.create_team_update',data)
-                .done(function(r){
-                    if(r.message.success){
-                        showAlert('Update posted successfully!','success');
-                        e.target.reset();loadUpdates();
-                    }else{showAlert(r.message.error,'error');}
-                }).fail(function(){showAlert('Error posting update','error');})
-                .always(function(){$('.btn-primary',e.target).prop('disabled',false).html('📢 Post Update');});
+        // ─── Tab Switching ─────────────────────────────────────────────────
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
+            var el = document.querySelector('.sidebar-item[data-section="' + tab + '"]');
+            if (el) el.classList.add('active');
+            var titles = { dashboard: 'Dashboard', leave: 'Leave Management', work: 'Work Log',
+                updates: 'Team Updates', projects: 'Projects', team: 'Team Directory', assignments: 'Assignments' };
+            document.getElementById('page-title').textContent = titles[tab] || 'Dashboard';
         }
-        function loadUpdates(){
-            $.get('/api/method/team_management.team_management.api.get_team_updates').done(function(r){
-                if(r.message && r.message.length){
-                    var h='<div class="activity-list">';
-                    r.message.forEach(function(u){
-                        h+='<div class="activity-item"><div class="activity-icon" style="background:#cffafe;color:#06b6d4;">💬</div>'
-                          +'<div class="activity-content"><div class="activity-title">'+u.member_name+' - '+u.update_type+'</div>'
-                          +'<div class="activity-subtitle">'+(u.description||'').substring(0,100)+'</div></div>'
-                          +'<div class="activity-time">'+u.date+'</div></div>';
-                    });
-                    h+='</div>';
-                    $('#updates-feed').html(h);
-                }else{
-                    $('#updates-feed').html('<div class="empty-state"><div class="empty-icon">💬</div><h3>No Updates Yet</h3><p>Be the first to share an update!</p></div>');
-                }
+
+        // ─── Populate Team Selects ─────────────────────────────────────────
+        function populateTeams() {
+            var selects = ['leave-team-select', 'work-team-select', 'update-team-select'];
+            selects.forEach(function(id) {
+                var sel = document.getElementById(id);
+                if (!sel) return;
+                sel.innerHTML = '<option value="">Select team...</option>';
+                TEAMS.forEach(function(t) {
+                    var opt = document.createElement('option');
+                    opt.value = t; opt.textContent = t;
+                    sel.appendChild(opt);
+                });
             });
         }
 
-        // PROJECTS
-        function loadProjects(){
-            $.get('/api/method/team_management.team_management.api.get_projects').done(function(r){
-                if(r.message && r.message.length){
-                    var h='';
-                    r.message.forEach(function(p){
-                        var b=p.status==='Completed'?'badge-success':p.status==='In Progress'?'badge-info':p.status==='Planning'?'badge-warning':'badge-gray';
-                        h+='<tr><td><strong>'+p.project_name+'</strong></td>'
-                          +'<td><span class="badge '+b+'">'+p.status+'</span></td>'
-                          +'<td>'+(p.start_date||'-')+'</td><td>'+(p.end_date||'-')+'</td>'
-                          +'<td>'+p.priority+'</td><td>'+p.team+'</td></tr>';
-                    });
-                    $('#project-table-body').html(h);
-                }else{
-                    $('#project-table-body').html('<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📊</div><h3>No Projects Yet</h3><p>Projects will appear here once created.</p></div></td></tr>');
-                }
+        // ─── Update Badges ─────────────────────────────────────────────────
+        function updateBadges(stats) {
+            if (!stats) return;
+            var b = document.getElementById('badge-leaves'); if (b) b.textContent = stats.pending_leaves || 0;
+            var bp = document.getElementById('badge-projects'); if (bp) bp.textContent = stats.active_projects || 0;
+            var bt = document.getElementById('badge-team'); if (bt) bt.textContent = stats.team_members || 0;
+        }
+
+        // ─── Dashboard Stats ───────────────────────────────────────────────
+        function renderStats(stats) {
+            if (!stats) return;
+            var map = {
+                'stat-pending-leaves': 'pending_leaves', 'stat-active-projects': 'active_projects',
+                'stat-open-tasks': 'open_assignments', 'stat-logs-today': 'my_logs_today',
+                'stat-updates': 'team_updates_today', 'stat-holidays': 'upcoming_holidays',
+                'stat-overdue': 'overdue_tasks', 'stat-my-pending': 'my_pending',
+                'proj-active': 'active_projects', 'proj-completed': 'completed_today',
+                'proj-pending': 'my_pending', 'team-count': 'team_members'
+            };
+            for (var id in map) {
+                var el = document.getElementById(id);
+                if (el) el.textContent = stats[map[id]] != null ? stats[map[id]] : 0;
+            }
+            updateBadges(stats);
+        }
+
+        // ─── Activity Feed ─────────────────────────────────────────────────
+        function loadActivity() {
+            var feed = document.getElementById('activity-feed');
+            if (!feed) return;
+            apiGet('get_recent_work_logs', {})
+                .then(function(logs) {
+                    var html = '';
+                    if (logs && logs.length) {
+                        logs.forEach(function(l) {
+                            html += '<div class="activity-item">'
+                                + '<div class="activity-icon" style="background:#dbeafe;color:#2563eb;">&#x1F4DD;</div>'
+                                + '<div class="activity-content"><div class="activity-title">' + (l.member_name || l.member) + ' logged ' + (l.hours_spent || 0) + 'h</div>'
+                                + '<div class="activity-subtitle">' + (l.task_description || '').substring(0, 60) + '</div></div>'
+                                + '<div class="activity-time">' + (l.date || '') + '</div></div>';
+                        });
+                    } else {
+                        html = '<div class="empty-state"><div class="empty-icon">&#x1F4ED;</div><h3>No Activity Yet</h3><p>Start by logging work or applying for leave!</p></div>';
+                    }
+                    feed.innerHTML = html;
+                })
+                .catch(function() {
+                    feed.innerHTML = '<div class="empty-state"><div class="empty-icon">&#x1F4ED;</div><h3>No Activity</h3><p>Start by logging work!</p></div>';
+                });
+        }
+
+        // ─── Load Leaves ───────────────────────────────────────────────────
+        function loadLeaves() {
+            apiGet('get_my_leaves', {})
+                .then(function(leaves) {
+                    var html = '';
+                    if (leaves && leaves.length) {
+                        leaves.forEach(function(l) {
+                            var cls = l.status === 'Approved' ? 'badge-success' : l.status === 'Rejected' ? 'badge-danger' : 'badge-warning';
+                            html += '<tr><td>' + (l.leave_type || '') + '</td><td>' + (l.from_date || '') + '</td><td>' + (l.to_date || '') + '</td><td>' + (l.total_days || 1) + '</td><td><span class="badge ' + cls + '">' + (l.status || '') + '</span></td></tr>';
+                        });
+                    } else {
+                        html = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">&#x1F4CB;</div><h3>No Leave Applications</h3><p>Apply for leave using the form above.</p></div></td></tr>';
+                    }
+                    document.getElementById('leave-table').innerHTML = html;
+                })
+                .catch(function() {
+                    document.getElementById('leave-table').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">&#x274C;</div><h3>Error loading leaves</h3></div></td></tr>';
+                });
+        }
+
+        // ─── Load Work Logs ────────────────────────────────────────────────
+        function loadWorkLogs() {
+            apiGet('get_recent_work_logs', {})
+                .then(function(logs) {
+                    var html = '';
+                    if (logs && logs.length) {
+                        logs.forEach(function(w) {
+                            html += '<tr><td>' + (w.date || '') + '</td><td>' + (w.member_name || w.member) + '</td><td>' + (w.task_description || '').substring(0, 40) + '</td><td><strong>' + (w.hours_spent || 0) + 'h</strong></td></tr>';
+                        });
+                    } else {
+                        html = '<tr><td colspan="4"><div class="empty-state"><div class="empty-icon">&#x23F1;&#xFE0F;</div><h3>No Work Logs Yet</h3><p>Log your work using the form above.</p></div></td></tr>';
+                    }
+                    document.getElementById('work-table').innerHTML = html;
+                })
+                .catch(function() {
+                    document.getElementById('work-table').innerHTML = '<tr><td colspan="4"><div class="empty-state"><div class="empty-icon">&#x274C;</div><h3>Error loading work logs</h3></div></td></tr>';
+                });
+        }
+
+        // ─── Load Updates ──────────────────────────────────────────────────
+        function loadUpdates() {
+            if (!TEAMS.length) {
+                document.getElementById('updates-feed').innerHTML = '<div class="empty-state"><div class="empty-icon">&#x1F4AC;</div><h3>No Team Assigned</h3><p>Join a team to see updates.</p></div>';
+                return;
+            }
+            apiGet('get_team_updates', { team: TEAMS[0] })
+                .then(function(updates) {
+                    var html = '';
+                    if (updates && updates.length) {
+                        html = '<div class="activity-list">';
+                        updates.forEach(function(u) {
+                            html += '<div class="activity-item">'
+                                + '<div class="activity-icon" style="background:#cffafe;color:#06b6d4;">&#x1F4AC;</div>'
+                                + '<div class="activity-content"><div class="activity-title">' + (u.posted_by_name || u.posted_by) + '</div>'
+                                + '<div class="activity-subtitle">' + (u.update_content || u.title || '').substring(0, 100) + '</div></div>'
+                                + '<div class="activity-time">' + (u.creation || '').substring(0, 10) + '</div></div>';
+                        });
+                        html += '</div>';
+                    } else {
+                        html = '<div class="empty-state"><div class="empty-icon">&#x1F4AC;</div><h3>No Updates Yet</h3><p>Be the first to share an update!</p></div>';
+                    }
+                    document.getElementById('updates-feed').innerHTML = html;
+                })
+                .catch(function() {
+                    document.getElementById('updates-feed').innerHTML = '<div class="empty-state"><div class="empty-icon">&#x274C;</div><h3>Error loading updates</h3></div>';
+                });
+        }
+
+        // ─── Load Projects ─────────────────────────────────────────────────
+        function loadProjects() {
+            apiGet('get_projects', {})
+                .then(function(projects) {
+                    var html = '';
+                    var active = 0, completed = 0;
+                    if (projects && projects.length) {
+                        projects.forEach(function(p) {
+                            if (p.status === 'Completed' || p.status === 'completed') completed++;
+                            else if (p.status === 'In Progress' || p.status === 'Planning') active++;
+                            var cls = p.status === 'Completed' ? 'badge-success' : p.status === 'In Progress' ? 'badge-info' : p.status === 'Planning' ? 'badge-warning' : 'badge-gray';
+                            html += '<tr><td><strong>' + (p.project_name || '') + '</strong></td>'
+                                + '<td><span class="badge ' + cls + '">' + (p.status || '') + '</span></td>'
+                                + '<td>' + (p.start_date || '-') + '</td><td>' + (p.end_date || '-') + '</td>'
+                                + '<td>' + (p.priority || '-') + '</td><td>' + (p.team || '') + '</td></tr>';
+                        });
+                    } else {
+                        html = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">&#x1F4CA;</div><h3>No Projects Yet</h3></div></td></tr>';
+                    }
+                    document.getElementById('project-table').innerHTML = html;
+                    var pa = document.getElementById('proj-active'); if (pa) pa.textContent = active;
+                    var pc = document.getElementById('proj-completed'); if (pc) pc.textContent = completed;
+                })
+                .catch(function() {
+                    document.getElementById('project-table').innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">&#x274C;</div><h3>Error loading projects</h3></div></td></tr>';
+                });
+        }
+
+        // ─── Load Team Members ─────────────────────────────────────────────
+        function loadTeamMembers() {
+            if (!TEAMS.length) {
+                document.getElementById('team-members').innerHTML = '<div class="empty-state"><div class="empty-icon">&#x1F465;</div><h3>No Team Assigned</h3></div>';
+                return;
+            }
+            apiGet('get_team_members', { team: TEAMS[0] })
+                .then(function(members) {
+                    var html = '';
+                    if (members && members.length) {
+                        html = '<div class="card-grid">';
+                        members.forEach(function(m) {
+                            var initials = (m.full_name || m.user || 'U').substring(0, 2).toUpperCase();
+                            html += '<div class="feature-card">'
+                                + '<div style="width:36px;height:36px;border-radius:8px;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-bottom:8px;">' + initials + '</div>'
+                                + '<h3>' + (m.full_name || m.user) + '</h3>'
+                                + '<p>' + (m.designation || 'Member') + '</p>'
+                                + '<span class="badge badge-info" style="margin-top:4px;">' + (m.email || '') + '</span></div>';
+                        });
+                        html += '</div>';
+                    } else {
+                        html = '<div class="empty-state"><div class="empty-icon">&#x1F465;</div><h3>No Members Found</h3></div>';
+                    }
+                    document.getElementById('team-members').innerHTML = html;
+                })
+                .catch(function() {
+                    document.getElementById('team-members').innerHTML = '<div class="empty-state"><div class="empty-icon">&#x274C;</div><h3>Error loading members</h3></div>';
+                });
+        }
+
+        // ─── Load Assignments ──────────────────────────────────────────────
+        function loadAssignments() {
+            apiGet('get_work_assignments', {})
+                .then(function(assignments) {
+                    var html = '';
+                    if (assignments && assignments.length) {
+                        assignments.forEach(function(a) {
+                            var cls = a.status === 'Completed' ? 'badge-success' : a.status === 'In Progress' ? 'badge-info' : a.status === 'Open' ? 'badge-warning' : 'badge-gray';
+                            var name = a.assigned_to || '';
+                            html += '<tr><td><strong>' + (a.title || a.name || '') + '</strong></td>'
+                                + '<td>' + name + '</td>'
+                                + '<td><span class="badge ' + cls + '">' + (a.status || '') + '</span></td>'
+                                + '<td>' + (a.priority || '-') + '</td>'
+                                + '<td>' + (a.due_date || '-') + '</td></tr>';
+                        });
+                    } else {
+                        html = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">&#x1F3AF;</div><h3>No Assignments</h3></div></td></tr>';
+                    }
+                    document.getElementById('assignment-table').innerHTML = html;
+                })
+                .catch(function() {
+                    document.getElementById('assignment-table').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">&#x274C;</div><h3>Error loading assignments</h3></div></td></tr>';
+                });
+        }
+
+        // ─── Form Submissions ──────────────────────────────────────────────
+        function setupForms() {
+            // Leave Form
+            document.getElementById('leave-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var btn = document.getElementById('leave-submit-btn');
+                btn.disabled = true; btn.textContent = 'Submitting...';
+                var fd = new FormData(this);
+                fd.append('member', USER);
+                var data = {};
+                fd.forEach(function(v, k) { data[k] = v; });
+                apiCall('create_leave', data)
+                    .then(function(r) {
+                        if (r && r.success) {
+                            showToast('Leave submitted successfully!', 'success');
+                            document.getElementById('leave-form').reset();
+                            loadLeaves();
+                        } else {
+                            showToast((r && r.error) || 'Error submitting leave', 'error');
+                        }
+                    })
+                    .catch(function(e) { showToast('Error: ' + e, 'error'); })
+                    .finally(function() { btn.disabled = false; btn.textContent = 'Submit Leave Application'; });
+            });
+
+            // Work Log Form
+            document.getElementById('work-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var btn = document.getElementById('work-submit-btn');
+                btn.disabled = true; btn.textContent = 'Saving...';
+                var fd = new FormData(this);
+                fd.append('member', USER);
+                var data = {};
+                fd.forEach(function(v, k) { data[k] = v; });
+                apiCall('create_work_log', data)
+                    .then(function(r) {
+                        if (r && r.success) {
+                            showToast('Work logged successfully!', 'success');
+                            document.getElementById('work-form').reset();
+                            loadWorkLogs();
+                        } else {
+                            showToast((r && r.error) || 'Error logging work', 'error');
+                        }
+                    })
+                    .catch(function(e) { showToast('Error: ' + e, 'error'); })
+                    .finally(function() { btn.disabled = false; btn.textContent = 'Log Work'; });
+            });
+
+            // Update Form
+            document.getElementById('update-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var btn = document.getElementById('update-submit-btn');
+                btn.disabled = true; btn.textContent = 'Posting...';
+                var fd = new FormData(this);
+                fd.append('member', USER);
+                var data = {};
+                fd.forEach(function(v, k) { data[k] = v; });
+                apiCall('create_team_update', data)
+                    .then(function(r) {
+                        if (r && r.success) {
+                            showToast('Update posted!', 'success');
+                            document.getElementById('update-form').reset();
+                            loadUpdates();
+                        } else {
+                            showToast((r && r.error) || 'Error posting update', 'error');
+                        }
+                    })
+                    .catch(function(e) { showToast('Error: ' + e, 'error'); })
+                    .finally(function() { btn.disabled = false; btn.textContent = 'Post Update'; });
             });
         }
 
-        // TEAM
-        function loadTeamMembers(){
-            $.get('/api/method/team_management.team_management.api.get_team_members').done(function(r){
-                if(r.message && r.message.length){
-                    var h='<div class="card-grid">';
-                    r.message.forEach(function(m){
-                        var initials=(m.member_name||m.member).substring(0,2).toUpperCase();
-                        h+='<div class="feature-card" onclick="openMemberDetails(\''+m.member+'\')">'
-                          +'<div style="width:40px;height:40px;border-radius:10px;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin-bottom:10px;">'+initials+'</div>'
-                          +'<h3>'+(m.member_name||m.member)+'</h3>'
-                          +'<p>'+m.team+'</p>'
-                          +'<span class="badge badge-info" style="margin-top:6px;">'+(m.role||'Member')+'</span></div>';
-                    });
-                    h+='</div>';
-                    $('#team-members-list').html(h);
-                }else{
-                    $('#team-members-list').html('<div class="empty-state"><div class="empty-icon">👥</div><h3>No Team Members</h3><p>Team members will appear here once added.</p></div>');
-                }
-            });
-        }
-        function openMemberDetails(email){
-            $.get('/api/method/team_management.team_management.api.get_member_details',{member:email}).done(function(r){
-                if(r.message){
-                    var m=r.message;
-                    var initials=(m.full_name||email).substring(0,2).toUpperCase();
-                    var h='<div style="text-align:center;margin-bottom:16px;">'
-                        +'<div style="width:64px;height:64px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 12px;">'+initials+'</div>'
-                        +'<h3>'+(m.full_name||email)+'</h3>'
-                        +'<p style="color:var(--text-muted);font-size:13px;">'+email+'</p></div>';
-                    h+='<div style="border-top:1px solid var(--border);padding-top:14px;">';
-                    if(m.mobile_no)h+='<p style="font-size:13px;margin-bottom:6px;"><strong>📱 Phone:</strong> '+m.mobile_no+'</p>';
-                    if(m.designation)h+='<p style="font-size:13px;margin-bottom:6px;"><strong>💼 Role:</strong> '+m.designation+'</p>';
-                    if(m.department)h+='<p style="font-size:13px;margin-bottom:6px;"><strong>🏢 Dept:</strong> '+m.department+'</p>';
-                    h+='<p style="font-size:13px;"><strong>👥 Team:</strong> '+(m.team_name||m.team)+'</p></div>';
-                    openModal('Member Details',h);
-                }
-            });
-        }
+        // ─── Initialize ────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render initial stats from server
+            renderStats(INITIAL_STATS);
 
-        // LOAD ALL
-        $(document).ready(function(){
-            loadLeaves();loadWorkLogs();loadUpdates();loadProjects();loadTeamMembers();
+            // Populate team dropdowns
+            populateTeams();
+
+            // Setup form submissions
+            setupForms();
+
+            // Load all data
+            loadActivity();
+            loadLeaves();
+            loadWorkLogs();
+            loadUpdates();
+            loadProjects();
+            loadTeamMembers();
+            loadAssignments();
         });
     </script>
 </body>
