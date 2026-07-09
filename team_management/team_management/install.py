@@ -3,6 +3,7 @@
 
 import frappe
 from frappe import _
+from frappe.modules.utils import sync_customizations
 
 
 def after_install():
@@ -20,8 +21,11 @@ def after_app_installed(app_name):
 def create_module_def():
 	"""Create Module Def for Team Management if it doesn't exist.
 	This ensures the workspace card appears on the Frappe v15 homepage
-	alongside other modules like HR, Accounting, etc."""
-	if not frappe.db.exists("Module Def", "Team Management"):
+	alongside other modules like HR, Accounting, etc.
+
+	Also re-syncs fixtures so the workspace record and other fixtures
+	are guaranteed to exist in the database."""
+	if not frappe.db.exists("Module Def", {"module_name": "Team Management"}):
 		module_def = frappe.get_doc({
 			"doctype": "Module Def",
 			"module_name": "Team Management",
@@ -29,6 +33,9 @@ def create_module_def():
 			"custom": 1,
 		})
 		module_def.insert(ignore_permissions=True)
+
+	# Force-sync fixtures to ensure workspace record exists
+	sync_customizations("team_management")
 
 
 def create_team_dashboard_page():
