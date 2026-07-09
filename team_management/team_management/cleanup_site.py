@@ -6,8 +6,7 @@ Comprehensive cleanup script for Team Management app.
 
 Run this via bench console on your site:
     bench --site team.details.local console
-    exec(open("apps/team_management/team_management/team_management/cleanup_site.py").read())
-    run()
+    exec(open("apps/team_management/team_management/cleanup_site.py").read())
 
 This will DELETE all doctypes, records, Module Def, Workspace, and fixtures
 related to the Team Management app from the site database.
@@ -204,4 +203,8 @@ def run():
     print()
 
 # Auto-run when executed
-run()
+try:
+    run()
+except Exception as e:
+    print(f"Cleanup failed: {e}")
+    print("You can manually run run() to retry.")
