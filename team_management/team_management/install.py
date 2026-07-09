@@ -7,6 +7,7 @@ from frappe import _
 
 def after_install():
 	"""Run after app installation."""
+	create_module_def()
 	frappe.msgprint(_("Team Management app installed successfully!"))
 
 
@@ -14,3 +15,17 @@ def after_app_installed(app_name):
 	"""Run after app is installed via bench."""
 	if app_name == "team_management":
 		after_install()
+
+
+def create_module_def():
+	"""Create Module Def for Team Management if it doesn't exist.
+	This ensures the workspace card appears on the Frappe v15 homepage
+	alongside other modules like HR, Accounting, etc."""
+	if not frappe.db.exists("Module Def", "Team Management"):
+		module_def = frappe.get_doc({
+			"doctype": "Module Def",
+			"module_name": "Team Management",
+			"app_name": "team_management",
+			"custom": 1,
+		})
+		module_def.insert(ignore_permissions=True)

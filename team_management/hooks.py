@@ -29,6 +29,7 @@ doctype_js = {
 
 # Fixtures
 fixtures = [
+	{"dt": "Module Def", "filters": [["module_name", "in", ["Team Management"]]]},
 	{"dt": "Role", "filters": [["name", "in", ["Team Head", "Team Lead", "Team Member", "Functional Team", "Project Manager"]]]},
 	{"dt": "Notification", "filters": [["name", "like", "%Team Management%"]]},
 	{"dt": "Workflow", "filters": [["document_type", "in", ["Work Requirement", "Leave Application", "Work Assignment", "Project"]]]},
