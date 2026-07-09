@@ -24,7 +24,8 @@ def create_module_def():
 	alongside other modules like HR, Accounting, etc.
 
 	Also re-syncs fixtures so the workspace record and other fixtures
-	are guaranteed to exist in the database."""
+	are guaranteed to exist in the database.
+	"""
 	if not frappe.db.exists("Module Def", {"module_name": "Team Management"}):
 		module_def = frappe.get_doc({
 			"doctype": "Module Def",
@@ -36,16 +37,3 @@ def create_module_def():
 
 	# Force-sync fixtures to ensure workspace record exists
 	sync_customizations("team_management")
-
-
-def create_team_dashboard_page():
-	"""Patch: Create Team Dashboard page and set up module.
-	This is a migration patch referenced in patches.txt."""
-	create_module_def()
-
-
-def create_team_management_module_def():
-	"""Patch: Ensure Team Management Module Def exists.
-	Run via: bench --site [site] migrate
-	This is needed so the workspace card shows on the Frappe v15 homepage."""
-	create_module_def()
