@@ -10,6 +10,7 @@ def after_install():
 	frappe.msgprint(_("Team Management app installed successfully!"))
 
 
-def after_app_installed():
+def after_app_installed(app_name):
 	"""Run after app is installed via bench."""
-	after_install()
+	if app_name == "team_management":
+		after_install()
