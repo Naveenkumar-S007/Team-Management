@@ -638,7 +638,8 @@
 
         // ─── Load Work Logs ────────────────────────────────────────────────
         function loadWorkLogs() {
-            apiGet('get_recent_work_logs', {})
+            var params = TEAMS.length ? { team: TEAMS[0] } : {};
+            apiGet('get_recent_work_logs', params)
                 .then(function(logs) {
                     var html = '';
                     if (logs && logs.length) {
@@ -686,7 +687,8 @@
 
         // ─── Load Projects ─────────────────────────────────────────────────
         function loadProjects() {
-            apiGet('get_projects', {})
+            var params = TEAMS.length ? { team: TEAMS[0] } : {};
+            apiGet('get_projects', params)
                 .then(function(projects) {
                     var html = '';
                     var active = 0, completed = 0;
@@ -744,7 +746,8 @@
 
         // ─── Load Assignments ──────────────────────────────────────────────
         function loadAssignments() {
-            apiGet('get_work_assignments', {})
+            var params = TEAMS.length ? { team: TEAMS[0] } : {};
+            apiGet('get_work_assignments', params)
                 .then(function(assignments) {
                     var html = '';
                     if (assignments && assignments.length) {
@@ -824,6 +827,9 @@
                 fd.append('member', USER);
                 var data = {};
                 fd.forEach(function(v, k) { data[k] = v; });
+                // Map update_type to title (API expects 'title' not 'update_type')
+                data.title = data.update_type;
+                delete data.update_type;
                 apiCall('create_team_update', data)
                     .then(function(r) {
                         if (r && r.success) {
