@@ -267,3 +267,233 @@ def send_weekly_team_summary():
 				"Weekly summary for <b>{0}</b>:<br>Completed this week: {1}<br>Currently Pending: {2}"
 			).format(team.name, completed, pending),
 		)
+
+
+# ─── Additional Scheduled Jobs ────────────────────────────────────────────────
+
+def check_leave_expiring():
+	"""Daily job: Check for leaves expiring soon and send reminders."""
+	from frappe.utils import date_diff
+	
+	expiry_date = add_days(today(), 3)
+	
+	expiring_leaves = frappe.get_all(
+		"Leave Application",
+		filters={
+			"status": "Approved",
+			"to_date": ["<=", expiry_date],
+			"to_date": [">=", today()],
+		},
+		fields=["name", "member", "leave_type", "to_date"],
+	)
+	
+	for leave in expiring_leaves:
+		frappe.sendmail(
+			recipients=[leave.member],
+			subject=_("Leave Expiring Soon: {0}").format(leave.name),
+			message=_("""
+				<p>Your approved leave is expiring soon.</p>
+				<p><strong>Leave Type:</strong> {leave_type}</p>
+				<p><strong>End Date:</strong> {to_date}</p>
+				<p><strong>Days Remaining:</strong> {days_remaining}</p>
+			""").format(
+				leave_type=leave.leave_type,
+				to_date=leave.to_date,
+				days_remaining=date_diff(leave.to_date, today()),
+			),
+		)
+
+
+def update_project_progress():
+	"""Daily job: Auto-update project progress from milestones."""
+	projects = frappe.get_all(
+		"Project",
+		filters={"is_active": 1, "status": ["in", ["Active", "Planning"]]},
+		pluck="name"
+	)
+	
+	for project_name in projects:
+		project = frappe.get_doc("Project", project_name)
+		if project.milestones:
+			completed = len([m for m in project.milestones if m.status == "Completed"])
+			total = len(project.milestones)
+			progress = (completed / total) * 100 if total > 0 else 0
+			
+			if abs(progress - (project.progress or 0)) > 0.5:
+				frappe.db.set_value("Project", project_name, "progress", progress)
+
+
+def send_pending_review_reminders():
+	"""Weekly job: Send reminders for pending performance reviews."""
+	reviews = frappe.get_all(
+		"Performance Review",
+		filters={"status": "Draft"},
+		fields=["name", "employee", "reviewer", "review_date"],
+	)
+	
+	for review in reviews:
+		if review.review_date and review.review_date < today():
+			frappe.sendmail(
+				recipients=[review.reviewer],
+				subject=_("Overdue Performance Review: {0}").format(review.name),
+				message=_("""
+					<p>You have an overdue performance review to complete.</p>
+					<p><strong>Review:</strong> {name}</p>
+					<p><strong>Employee:</strong> {employee}</p>
+					<p><strong>Due Date:</strong> {review_date}</p>
+				""").format(
+					name=review.name,
+					employee=review.employee,
+					review_date=review.review_date,
+				),
+			)
+
+
+def generate_monthly_reports():
+	"""Monthly job: Generate and send monthly team reports."""
+	from frappe.utils import get_first_day, get_last_day
+	
+	teams = frappe.get_all("Team", filters={"is_active": 1}, pluck="name")
+	month_start = get_first_day(add_days(today(), -30))
+	month_end = get_last_day(month_start)
+	
+	for team in teams:
+		team_head = _team_head_emails(team)
+		if not team_head:
+			continue
+		
+		# Get monthly stats
+		members_count = frappe.db.count("Team Member", {"parent": team, "is_active": 1})
+		completed_assignments = frappe.db.count(
+			"Work Assignment",
+			{"team": team, "status": "Completed", "assigned_date": ["between", [month_start, month_end]]}
+		)
+		hours_logged = frappe.db.sql("""
+			SELECT COALESCE(SUM(wl.hours_spent), 0)
+			FROM `tabWork Log` wl
+			WHERE wl.team = %s
+			AND wl.date BETWEEN %s AND %s
+		""", [team, month_start, month_end])[0][0] or 0
+		
+		frappe.sendmail(
+			recipients=team_head,
+			subject=_("Monthly Team Report: {0} - {month}").format(team, month=month_start.strftime("%B %Y")),
+			message=_("""
+				<p>Here is your monthly team performance report for <strong>{team}</strong>.</p>
+				<h3>{month}</h3>
+				<ul>
+					<li><strong>Active Members:</strong> {members}</li>
+					<li><strong>Completed Assignments:</strong> {completed}</li>
+					<li><strong>Hours Logged:</strong> {hours}</li>
+				</ul>
+			""").format(
+				team=team,
+				month=month_start.strftime("%B %Y"),
+				members=members_count,
+				completed=completed_assignments,
+				hours=hours_logged,
+			),
+		)
+
+
+# ─── Additional Notification Functions ─────────────────────────────────────────
+
+def notify_announcement(doc, method=None):
+	"""Notify team members of new announcements."""
+	if not doc.is_active:
+		return
+	
+	recipients = []
+	if doc.team:
+		recipients = _team_member_emails(doc.team)
+	else:
+		# Company-wide announcement
+		recipients = frappe.get_all("User", filters={"enabled": 1, "user_type": "System User"}, pluck="name")
+	
+	if recipients:
+		frappe.sendmail(
+			recipients=recipients,
+			subject=_("New Announcement: {0}").format(doc.title),
+			message=_("""
+				<p><strong>{title}</strong></p>
+				<p>{content}</p>
+				<p><strong>Type:</strong> {announcement_type}</p>
+				<p><strong>Priority:</strong> {priority}</p>
+			""").format(
+				title=doc.title,
+				content=doc.content or "",
+				announcement_type=doc.announcement_type,
+				priority=doc.priority,
+			),
+		)
+
+
+def notify_review_created(doc, method=None):
+	"""Notify employee when a performance review is created."""
+	if doc.user and doc.user != frappe.session.user:
+		frappe.sendmail(
+			recipients=[doc.user],
+			subject=_("New Performance Review Created: {0}").format(doc.name),
+			message=_("""
+				<p>A new performance review has been created for you.</p>
+				<p><strong>Review Type:</strong> {review_type}</p>
+				<p><strong>Review Period:</strong> {review_period}</p>
+				<p><strong>Review Date:</strong> {review_date}</p>
+			""").format(
+				review_type=doc.review_type,
+				review_period=doc.review_period or "N/A",
+				review_date=doc.review_date or "N/A",
+			),
+		)
+
+
+def notify_project_update(doc, method=None):
+	"""Notify team members when project status changes."""
+	if not doc.has_value_changed("status"):
+		return
+	
+	members = _team_member_emails(doc.team)
+	if doc.owner in members:
+		members.remove(doc.owner)
+	
+	if members:
+		old_status = doc.get_doc_before_save().status if doc.get_doc_before_save() else "Unknown"
+		frappe.sendmail(
+			recipients=members,
+			subject=_("Project Status Update: {0}").format(doc.project_name or doc.name),
+			message=_("""
+				<p>Project status has been updated.</p>
+				<p><strong>Project Name:</strong> {project_name}</p>
+				<p><strong>Old Status:</strong> {old_status}</p>
+				<p><strong>New Status:</strong> {new_status}</p>
+			""").format(
+				project_name=doc.project_name or doc.name,
+				old_status=old_status,
+				new_status=doc.status,
+			),
+		)
+
+
+def notify_requirement_update(doc, method=None):
+	"""Notify relevant parties when a requirement is updated."""
+	if not doc.has_value_changed("status"):
+		return
+	
+	old_doc = doc.get_doc_before_save()
+	if old_doc and old_doc.status != doc.status:
+		team_head = _team_head_emails(doc.team)
+		if team_head and frappe.session.user:
+			frappe.sendmail(
+				recipients=team_head,
+				subject=_("Requirement Status Update: {0}").format(doc.title or doc.name),
+				message=_("""
+					<p>A work requirement status has been updated.</p>
+					<p><strong>Title:</strong> {title}</p>
+					<p><strong>Old Status:</strong> {old_status}</p>
+					<p><strong>New Status:</strong> {new_status}</p>
+				""").format(
+					title=doc.title or doc.name,
+					old_status=old_doc.status,
+					new_status=doc.status,
+				),
+			)

@@ -15,9 +15,11 @@
   "section_break_1",
   "task_description",
   "hours_spent",
-  "status",
   "column_break_2",
+  "status",
   "remarks",
+  "section_break_2",
+  "is_billable",
   "attachment"
  ],
  "fields": [
@@ -30,7 +32,6 @@
    "reqd": 1
   },
   {
-   "default": "__user",
    "fieldname": "member",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -63,6 +64,7 @@
   {
    "fieldname": "work_assignment",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Related Work Assignment",
    "options": "Work Assignment"
   },
@@ -81,10 +83,15 @@
    "fieldname": "hours_spent",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Hours Spent"
+   "label": "Hours Spent",
+   "precision": 2
   },
   {
-   "default": "Pending",
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Completed",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -93,13 +100,20 @@
    "options": "Pending\nIn Progress\nCompleted"
   },
   {
-   "fieldname": "column_break_2",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Additional Info"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_billable",
+   "fieldtype": "Check",
+   "label": "Is Billable"
   },
   {
    "fieldname": "attachment",
@@ -109,7 +123,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-01 10:00:00.000000",
+ "modified": "2026-07-09 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "Team Management",
  "name": "Work Log",
@@ -139,14 +153,6 @@
    "role": "Team Head",
    "share": 1,
    "write": 1
-  },
-  {
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Team Member"
   },
   {
    "create": 1,

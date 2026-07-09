@@ -5,5 +5,12 @@
  {"doctype": "Workflow State", "name": "Completed", "workflow_state_name": "Completed", "style": "Success", "icon": "circle"},
  {"doctype": "Workflow State", "name": "Pending Approval", "workflow_state_name": "Pending Approval", "style": "Warning", "icon": "small-circle"},
  {"doctype": "Workflow State", "name": "Approved", "workflow_state_name": "Approved", "style": "Success", "icon": "check"},
- {"doctype": "Workflow State", "name": "Rejected", "workflow_state_name": "Rejected", "style": "Danger", "icon": "x"}
+ {"doctype": "Workflow State", "name": "Rejected", "workflow_state_name": "Rejected", "style": "Danger", "icon": "x"},
+ {"doctype": "Workflow State", "name": "Active", "workflow_state_name": "Active", "style": "Success", "icon": "circle"},
+ {"doctype": "Workflow State", "name": "Planning", "workflow_state_name": "Planning", "style": "Info", "icon": "small-circle"},
+ {"doctype": "Workflow State", "name": "On Hold", "workflow_state_name": "On Hold", "style": "Warning", "icon": "pause"},
+ {"doctype": "Workflow State", "name": "Cancelled", "workflow_state_name": "Cancelled", "style": "Danger", "icon": "x"},
+ {"doctype": "Workflow State", "name": "Draft", "workflow_state_name": "Draft", "style": "Secondary", "icon": "edit"},
+ {"doctype": "Workflow State", "name": "Submitted", "workflow_state_name": "Submitted", "style": "Info", "icon": "check"},
+ {"doctype": "Workflow State", "name": "Acknowledged", "workflow_state_name": "Acknowledged", "style": "Success", "icon": "check-circle"}
 ]

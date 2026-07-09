@@ -7,11 +7,12 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "requirement_title",
+  "title",
   "team",
   "column_break_1",
   "requested_by",
   "priority",
+  "expected_start_date",
   "due_date",
   "project",
   "section_break_1",
@@ -19,7 +20,10 @@
   "attachment",
   "section_break_2",
   "status",
-  "linked_assignment"
+  "linked_assignment",
+  "column_break_2",
+  "estimated_hours",
+  "actual_hours"
  ],
  "fields": [
   {
@@ -31,7 +35,7 @@
    "reqd": 1
   },
   {
-   "fieldname": "requirement_title",
+   "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Requirement Title",
@@ -66,6 +70,11 @@
    "in_standard_filter": 1,
    "label": "Priority",
    "options": "Low\nMedium\nHigh\nUrgent"
+  },
+  {
+   "fieldname": "expected_start_date",
+   "fieldtype": "Date",
+   "label": "Expected Start Date"
   },
   {
    "fieldname": "due_date",
@@ -108,7 +117,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Open\nAssigned\nIn Progress\nCompleted",
+   "options": "Open\nAssigned\nIn Progress\nCompleted\nCancelled",
    "read_only": 1
   },
   {
@@ -117,11 +126,31 @@
    "label": "Linked Work Assignment",
    "options": "Work Assignment",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "estimated_hours",
+   "fieldtype": "Float",
+   "label": "Estimated Hours"
+  },
+  {
+   "fieldname": "actual_hours",
+   "fieldtype": "Float",
+   "label": "Actual Hours",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-01-01 10:00:00.000000",
+ "links": [
+  {
+   "link_doctype": "Work Assignment",
+   "link_fieldname": "work_requirement"
+  }
+ ],
+ "modified": "2026-07-09 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "Team Management",
  "name": "Work Requirement",

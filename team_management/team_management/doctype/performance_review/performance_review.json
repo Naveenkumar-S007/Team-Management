@@ -1,0 +1,247 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-09 04:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "employee",
+  "user",
+  "team",
+  "column_break_1",
+  "review_type",
+  "review_period",
+  "review_date",
+  "reviewer",
+  "section_break_1",
+  "goals_achieved",
+  "kpis_met",
+  "overall_rating",
+  "section_break_2",
+  "strengths",
+  "areas_for_improvement",
+  "section_break_3",
+  "comments",
+  "section_break_4",
+  "goals_for_next_period",
+  "training_recommendations",
+  "section_break_5",
+  "status",
+  "acknowledged_by_employee",
+  "acknowledgment_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PR-.YYYY.-",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "fetch_from": "employee.user_id"
+  },
+  {
+   "fieldname": "team",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Team",
+   "options": "Team"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "review_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Review Type",
+   "options": "Monthly\nQuarterly\nAnnual\nProbation\nMid-Year\nFinal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "review_period",
+   "fieldtype": "Data",
+   "label": "Review Period",
+   "description": "e.g., Q1 2026, January 2026, 2025"
+  },
+  {
+   "fieldname": "review_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Review Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reviewer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Reviewer",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Performance Metrics"
+  },
+  {
+   "fieldname": "goals_achieved",
+   "fieldtype": "Float",
+   "label": "Goals Achieved (%)",
+   "description": "Percentage of goals achieved"
+  },
+  {
+   "fieldname": "kpis_met",
+   "fieldtype": "Float",
+   "label": "KPIs Met (%)",
+   "description": "Percentage of KPIs met"
+  },
+  {
+   "fieldname": "overall_rating",
+   "fieldtype": "Rating",
+   "label": "Overall Rating (1-5)"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Detailed Feedback"
+  },
+  {
+   "fieldname": "strengths",
+   "fieldtype": "Text Editor",
+   "label": "Key Strengths",
+   "reqd": 1
+  },
+  {
+   "fieldname": "areas_for_improvement",
+   "fieldtype": "Text Editor",
+   "label": "Areas for Improvement"
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break",
+   "label": "Additional Comments"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Text Editor",
+   "label": "Additional Comments"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break",
+   "label": "Future Planning"
+  },
+  {
+   "fieldname": "goals_for_next_period",
+   "fieldtype": "Text Editor",
+   "label": "Goals for Next Period"
+  },
+  {
+   "fieldname": "training_recommendations",
+   "fieldtype": "Small Text",
+   "label": "Training Recommendations",
+   "description": "Comma-separated list of recommended training"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nAcknowledged\nArchived",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "acknowledged_by_employee",
+   "fieldtype": "Check",
+   "label": "Acknowledged by Employee"
+  },
+  {
+   "fieldname": "acknowledgment_date",
+   "fieldtype": "Date",
+   "label": "Acknowledgment Date",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-09 04:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Team Management",
+ "name": "Performance Review",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Team Head",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Team Member"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

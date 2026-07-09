@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "title",
   "work_requirement",
   "team",
   "column_break_1",
@@ -21,6 +22,10 @@
   "status",
   "section_break_2",
   "instructions",
+  "estimated_hours",
+  "column_break_3",
+  "actual_hours",
+  "progress",
   "section_break_3",
   "feedback"
  ],
@@ -31,6 +36,13 @@
    "label": "Series",
    "options": "WA-.YYYY.-",
    "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assignment Title",
    "reqd": 1
   },
   {
@@ -70,6 +82,13 @@
    "read_only": 1
   },
   {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Project",
+   "options": "Project"
+  },
+  {
    "fieldname": "section_break_1",
    "fieldtype": "Section Break",
    "label": "Schedule"
@@ -105,17 +124,37 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Assigned\nIn Progress\nCompleted\nOn Hold"
+   "options": "Assigned\nIn Progress\nCompleted\nOn Hold\nCancelled"
   },
   {
    "fieldname": "section_break_2",
    "fieldtype": "Section Break",
-   "label": "Instructions"
+   "label": "Instructions & Estimates"
   },
   {
    "fieldname": "instructions",
    "fieldtype": "Text Editor",
    "label": "Instructions For Member"
+  },
+  {
+   "fieldname": "estimated_hours",
+   "fieldtype": "Float",
+   "label": "Estimated Hours"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actual_hours",
+   "fieldtype": "Float",
+   "label": "Actual Hours",
+   "read_only": 1
+  },
+  {
+   "fieldname": "progress",
+   "fieldtype": "Percent",
+   "label": "Progress (%)"
   },
   {
    "collapsible": 1,
@@ -133,7 +172,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-01 10:00:00.000000",
+ "modified": "2026-07-09 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "Team Management",
  "name": "Work Assignment",

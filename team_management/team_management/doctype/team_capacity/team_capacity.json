@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "creation": "2026-07-09 04:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "month_year",
+  "available_hours",
+  "booked_hours",
+  "column_break_1",
+  "utilization_percentage",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "month_year",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Month/Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "available_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Available Hours",
+   "default": "160"
+  },
+  {
+   "fieldname": "booked_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Booked Hours",
+   "default": "0"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "utilization_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Utilization (%)"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-09 04:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Team Management",
+ "name": "Team Capacity",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -9,11 +9,19 @@
   "team_name",
   "column_break_1",
   "team_head",
+  "team_lead",
   "section_break_1",
   "members",
   "section_break_2",
   "department",
-  "is_active"
+  "parent_team",
+  "column_break_3",
+  "max_team_size",
+  "is_active",
+  "section_break_3",
+  "description",
+  "section_break_4",
+  "capacity_planning"
  ],
  "fields": [
   {
@@ -38,6 +46,13 @@
    "reqd": 1
   },
   {
+   "fieldname": "team_lead",
+   "fieldtype": "Link",
+   "label": "Team Lead",
+   "options": "User",
+   "depends_on": "eval:doc.team_head != doc.team_lead"
+  },
+  {
    "fieldname": "section_break_1",
    "fieldtype": "Section Break",
    "label": "Members"
@@ -49,10 +64,9 @@
    "options": "Team Member"
   },
   {
-   "collapsible": 1,
    "fieldname": "section_break_2",
    "fieldtype": "Section Break",
-   "label": "More Info"
+   "label": "Organization"
   },
   {
    "fieldname": "department",
@@ -61,15 +75,70 @@
    "options": "Department"
   },
   {
-   "default": "1",
+   "fieldname": "parent_team",
+   "fieldtype": "Link",
+   "label": "Parent Team",
+   "options": "Team"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "max_team_size",
+   "fieldtype": "Int",
+   "label": "Maximum Team Size",
+   "default": "20"
+  },
+  {
    "fieldname": "is_active",
    "fieldtype": "Check",
-   "label": "Is Active"
+   "label": "Is Active",
+   "default": "1"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Team Description"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break",
+   "label": "Capacity Planning"
+  },
+  {
+   "fieldname": "capacity_planning",
+   "fieldtype": "Table",
+   "label": "Capacity Planning",
+   "options": "Team Capacity"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-01-01 10:00:00.000000",
+ "links": [
+  {
+   "link_doctype": "Project",
+   "link_fieldname": "team"
+  },
+  {
+   "link_doctype": "Work Assignment",
+   "link_fieldname": "team"
+  },
+  {
+   "link_doctype": "Work Requirement",
+   "link_fieldname": "team"
+  },
+  {
+   "link_doctype": "Team Update",
+   "link_fieldname": "team"
+  }
+ ],
+ "modified": "2026-07-09 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "Team Management",
  "name": "Team",
@@ -85,6 +154,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
    "share": 1,
    "write": 1
   },

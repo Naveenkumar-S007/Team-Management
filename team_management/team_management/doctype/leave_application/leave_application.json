@@ -16,6 +16,7 @@
   "from_date",
   "to_date",
   "total_days",
+  "half_day",
   "column_break_2",
   "reason",
   "section_break_2",
@@ -30,12 +31,11 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "LA-.YYYY.-\nLEAVE-.YYYY.-",
+   "options": "LA-.YYYY.-",
    "print_hide": 1,
    "reqd": 1
   },
   {
-   "default": "__user",
    "fieldname": "member",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -64,7 +64,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Leave Type",
-   "options": "Sick Leave\nPersonal Leave\nCasual Leave\nAnnual Leave\nMaternity Leave\nPaternity Leave\nBereavement Leave\nWork From Home\nCompensatory Off\nOther",
+   "options": "Sick Leave\nPersonal Leave\nCasual Leave\nAnnual Leave\nMaternity Leave\nPaternity Leave\nBereavement Leave\nWork From Home\nCompensatory Off\nUnpaid Leave\nOther",
    "reqd": 1
   },
   {
@@ -97,6 +97,12 @@
    "in_list_view": 1,
    "label": "Total Days",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "half_day",
+   "fieldtype": "Check",
+   "label": "Half Day"
   },
   {
    "fieldname": "column_break_2",
@@ -148,7 +154,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 10:00:00.000000",
+ "modified": "2026-07-09 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "Team Management",
  "name": "Leave Application",
@@ -175,6 +181,18 @@
    "print": 1,
    "read": 1,
    "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "Team Head",
    "share": 1,
    "write": 1
@@ -183,6 +201,7 @@
    "create": 1,
    "email": 1,
    "export": 1,
+   "if_owner": 1,
    "print": 1,
    "read": 1,
    "report": 1,
