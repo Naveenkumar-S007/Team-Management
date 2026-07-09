@@ -1,5 +1,5 @@
 import frappe
-from frappe.modules.utils import sync_customizations
+from frappe.modules.utils import sync_fixtures
 
 
 def execute():
@@ -17,5 +17,5 @@ def execute():
 		})
 		module_def.insert(ignore_permissions=True)
 
-	# Force-sync fixtures to ensure workspace record exists
-	sync_customizations("team_management")
+	# Force-sync fixtures to ensure workspace, roles, and other records exist
+	sync_fixtures("team_management")
