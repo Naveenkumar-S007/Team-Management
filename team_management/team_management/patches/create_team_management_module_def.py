@@ -1,5 +1,5 @@
 import frappe
-from frappe.modules.utils import sync_fixtures
+from frappe.utils.fixtures import sync_fixtures
 
 
 def execute():

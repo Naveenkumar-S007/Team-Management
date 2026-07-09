@@ -3,7 +3,7 @@
 
 import frappe
 from frappe import _
-from frappe.modules.utils import sync_fixtures
+from frappe.utils.fixtures import sync_fixtures
 
 
 def after_install():
