@@ -102,11 +102,6 @@ $(document).ready(function() {
 	}, 500);
 });
 
-// ─── Dashboard Page ───
-frappe.pages['team-dashboard'].on_page_load = function(wrapper) {
-	frappe.team_management.dashboard = new frappe.team_management.TeamDashboard(wrapper);
-};
-
 frappe.team_management.TeamDashboard = Class.extend({
 	init: function(wrapper) {
 		this.wrapper = $(wrapper);
