@@ -29,3 +29,16 @@ def create_module_def():
 			"custom": 1,
 		})
 		module_def.insert(ignore_permissions=True)
+
+
+def create_team_dashboard_page():
+	"""Patch: Create Team Dashboard page and set up module.
+	This is a migration patch referenced in patches.txt."""
+	create_module_def()
+
+
+def create_team_management_module_def():
+	"""Patch: Ensure Team Management Module Def exists.
+	Run via: bench --site [site] migrate
+	This is needed so the workspace card shows on the Frappe v15 homepage."""
+	create_module_def()
